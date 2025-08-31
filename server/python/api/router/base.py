@@ -113,3 +113,27 @@ async def _():
                 },
             }
     raise HTTPException(status_code=400, detail="滑块验证码通过失败")
+
+
+@router.get("/weixin/token")
+async def _(
+    request: Request,
+    appid: str,
+    secret: str,
+):
+    resp = await client.post(
+        url="https://api.weixin.qq.com/cgi-bin/stable_token",
+        json={
+            "grant_type": "client_credential",
+            "appid": appid,
+            "secret": secret,
+            "force_refresh": False,
+        },
+    )
+    res: dict = resp.json()
+    return JSONResponse(
+        content=res,
+        headers={
+            "Cache-Control": "private, max-age=3600",
+        },
+    )

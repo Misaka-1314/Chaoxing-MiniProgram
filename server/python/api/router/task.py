@@ -73,7 +73,7 @@ async def _(
             ],
         }
     )
-    resp.headers["Cache-Control"] = "max-age=30, public"
+    resp.headers["Cache-Control"] = "max-age=15, public"
     return resp
 
 

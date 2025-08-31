@@ -14,36 +14,29 @@ const rules = {
     appid: {
         required: true,
         validator(rule, value) {
-            value = (value || "").trim();
-            if (!value)
+            form.value.status = "";
+            let _value = (value || "").trim();
+            if (!_value)
                 return new Error("需要填写 AppID");
-            else if (!value.startsWith("wx") || value.length != 18)
+            else if (!_value.startsWith("wx") || _value.length != 18)
                 return new Error("AppID 格式不正确");
             return true;
         },
-        trigger: ["input"],
+        trigger: ["blur"],
     },
     secret: {
         required: true,
         validator: (rule, value) => {
             return new Promise((resolve, reject) => {
-                value = (value || "").trim();
-                if (!form.value.appid)
+                let _value = (value || "").trim();
+                if (!form.value.appid || form.value.appid.length !== 18)
                     reject("请先填写上方的 AppID");
-                else if (!value)
+                else if (!_value)
                     reject("需要填写 AppSecret");
-                else if (value.length != 32)
+                else if (_value.length != 32)
                     reject("AppSecret 格式不正确");
                 else
-                    fetch(`https://proxy.yangrucheng.top/api.weixin.qq.com/cgi-bin/stable_token`, {
-                        "method": "POST",
-                        "body": JSON.stringify({
-                            "grant_type": "client_credential",
-                            "appid": form.value.appid,
-                            "secret": value,
-                            "force_refresh": false,
-                        })
-                    })
+                    fetch(`${host}/api/weixin/token?appid=${form.value.appid}&secret=${_value}`)
                         .then(resp => resp.json())
                         .then(res => {
                             if (res.access_token)
@@ -51,34 +44,41 @@ const rules = {
                             else
                                 reject(`验证失败：${res.errmsg}`);
                         })
+                        .catch(err => resolve())
             });
         },
-        trigger: ["input"],
+        trigger: ["blur"],
     },
     key: {
         required: true,
+        validator(rule, value) {
+            if (!value)
+                return new Error("需要小程序代码上传密钥");
+            else if (value.length < 1000)
+                return new Error("小程序代码上传密钥格式不正确");
+            return true;
+        },
     },
     mobile: [{
         required: true,
         validator: (rule, value) => {
-            value = (value || "").trim();
-            if (!value)
+            let _value = (value || "").trim();
+            if (!_value)
                 return new Error("需要填写手机号");
-            else if (value.length != 11)
+            else if (_value.length != 11)
                 return new Error("手机号格式不正确");
             return true;
         },
-        trigger: ["input"],
+        trigger: ["blur"],
     }, {
         level: 'warning',
         validator: (rule, value) => {
-            value = (value || "").trim();
-            if (!value.startsWith("1"))
+            let _value = (value || "").trim();
+            if (!_value.startsWith("1"))
                 return new Error("填错手机号将无法进入小程序自定义信息修改页");
             return true;
         },
-        trigger: ["input"],
-
+        trigger: ["blur"],
     }]
 };
 
@@ -100,9 +100,10 @@ const readKeyFile = () => {
         reader.onload = event => {
             console.info("读取文件", event);
             form.value.key = event.target.result;
+            form.value = { ...form.value };
+            console.info(form.value.key);
         }
         reader.onerror = () =>
-
             console.error('文件读取失败:', reader.error);
         reader.readAsText(file);
     };
@@ -111,29 +112,31 @@ const readKeyFile = () => {
 }
 
 const submit = e => {
-    e.preventDefault();
     form.value?.validate((errors, { warnings }) => {
         if (errors) {
             alert("请检查输入内容！")
             return;
         }
+        const body = {
+            "appid": form.value.appid.trim(),
+            "secret": form.value.secret.trim(),
+            "key": form.value.key.trim(),
+            "mobile": form.value.mobile.trim(),
+            "name": form.value.name.trim(),
+        };
         fetch(`${host}/api/task/submit`, {
             "method": "POST",
             "headers": {
                 "Content-Type": "application/json",
             },
-            "body": JSON.stringify({
-                "appid": form.value.appid.trim(),
-                "secret": form.value.secret.trim(),
-                "key": form.value.key.trim(),
-                "mobile": form.value.mobile.trim(),
-                "name": form.value.name.trim(),
-            })
+            "body": JSON.stringify(body),
         })
             .then(resp => resp.json())
             .then(res => {
-                console.info("提交小程序", res);
+                console.info("提交小程序", body, res);
                 alert(res.msg)
+                if (res.status == 0)
+                    form.value.status = "success", form.value = { ...form.value };
             })
     });
 };
@@ -149,21 +152,20 @@ const submit = e => {
                     <template #label>
                         <span class="label-title">AppID</span>
                     </template>
-                    <NInput v-model:value="form.appid" placeholder="请输入 AppID" />
+                    <NInput v-model:value="form.appid" placeholder="请复制并粘贴 AppID" />
                 </NFormItem>
                 <NFormItem label="secret" path="secret">
                     <template #label>
                         <span class="label-title">AppSecret</span>
                     </template>
-                    <NInput v-model:value="form.secret" placeholder="请输入 AppSecret" />
+                    <NInput v-model:value="form.secret" placeholder="请复制并粘贴 AppSecret" />
                 </NFormItem>
                 <NFormItem label="key" path="key">
                     <template #label>
                         <span class="label-title">小程序代码上传密钥</span>
                         <NButton class="label-description" @click="readKeyFile">从文件中读取</NButton>
                     </template>
-                    <NCode v-if="form.key" :code="form.key" class="width-font" show-line-numbers></NCode>
-                    <NCode v-else="form.key" code="点击上方按钮从文件中读取" class="width-font" show-line-numbers="true"></NCode>
+                    <NInput v-model:value="form.key" type="textarea" readonly placeholder="点击上方按钮从文件中读取" />
                 </NFormItem>
                 <NFormItem label="mobile" path="mobile">
                     <template #label>
@@ -179,7 +181,9 @@ const submit = e => {
                     </template>
                     <NInput v-model:value="form.name" placeholder="请输入小程序名称" />
                 </NFormItem>
-                <NButton type="primary" size="large" block @click="submit">提交</NButton>
+                <NButton type="primary" size="large" v-if="form?.status == 'success'" block disabled>已提交成功
+                </NButton>
+                <NButton type="primary" size="large" v-else block @click.prevent="submit">提交</NButton>
             </NForm>
         </div>
     </NConfigProvider>
