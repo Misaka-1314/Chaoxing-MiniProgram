@@ -1,6 +1,6 @@
 const formatToChinaTime = (utcStr) => {
     const date = new Date(utcStr);
-    const cnTime = new Date(date.getTime() + 8 * 60 * 60 * 1000);
+    const cnTime = new Date(date.getTime());
     const yyyy = cnTime.getFullYear();
     const mm = String(cnTime.getMonth() + 1).padStart(2, "0");
     const dd = String(cnTime.getDate()).padStart(2, "0");
@@ -20,27 +20,26 @@ const response = (res) =>
     });
 
 export async function onRequestGet({ request, params, env }) {
-    try {
-        const resp = await fetch(
-            `https://api.github.com/repos/${env.repo}/commits?sha=main&per_page=3`,
-            {
-                headers: {
-                    Authorization: `Bearer ${env.token}`,
-                },
-            }
-        );
-        const res = await resp.json();
-        const date = res[0]?.commit?.committer?.date || "获取失败";
-        return response({
-            status: 0,
-            msg: "获取最后更新时间",
-            data: formatToChinaTime(date),
-        });
-    } catch (e) {
+    const resp = await fetch(
+        `https://api.github.com/repos/${env.repo}/commits?sha=main&per_page=3`, {
+        "method": "GET",
+        "headers": {
+            "Authorization": `Bearer ${env.token}`,
+            "User-Agent": "misaka-docs",
+        },
+    });
+    if (resp.status != 200)
         return response({
             status: -1,
-            msg: `请求失败 ${e} ${e.message}`,
+            msg: `请求失败 ${resp.status} ${await resp.text()}`,
             data: "获取失败",
         });
-    }
+
+    const res = await resp.json();
+    const date = res[0]?.commit?.committer?.date || "获取失败";
+    return response({
+        status: 0,
+        msg: "获取最后更新时间",
+        data: formatToChinaTime(date),
+    });
 }
