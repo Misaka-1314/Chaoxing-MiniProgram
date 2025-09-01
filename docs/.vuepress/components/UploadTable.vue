@@ -76,7 +76,7 @@ onMounted(() => {
             if (res1.status === 0 && Array.isArray(res1.data)) {
                 list.value = res1.data;
                 msg.value = list.value.length ? '' : '暂无数据，请稍后再试！';
-                title.value = `小程序版本号：v3，共计 ${list.value.length} 条问卷数据，最后更新时间：${res2.data}`;
+                title.value = `小程序版本号：v3，共计 ${list.value.length} 条问卷数据，代码最后更新时间：${res2.data}`;
                 localStorage.setItem('uploadTableData', JSON.stringify(list.value));
             }
         })

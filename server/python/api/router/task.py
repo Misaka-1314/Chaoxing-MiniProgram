@@ -134,7 +134,7 @@ async def _(
 async def _(
     request: Request,
 ):
-    # curl http://127.0.0.1:8000/api/task/force/all
+    # curl --max-time 0 http://127.0.0.1:8000/api/task/force/all
     if request.client.host != "127.0.0.1":
         raise HTTPException(status_code=403, detail="暂不支持")
 
