@@ -47,19 +47,15 @@ async def _(
     res: dict = resp.json()
     cookies[username] = resp.cookies
 
-    response = JSONResponse(
-        content=res,
-        headers={
-            "Access-Control-Allow-Origin": request.headers.get("Origin", "*"),
-        },
-    )
+    response = JSONResponse(content=res)
     for cookie in resp.cookies:
         response.set_cookie(
             key=cookie,
             value=resp.cookies[cookie],
-            httponly=True,
-            secure=False,
-            samesite="lax",
+            domain=".micono.eu.org",
+            httponly=False,
+            secure=True,
+            samesite="none",
             expires=int(time.time() + 3600 * 24),
         )
     return response

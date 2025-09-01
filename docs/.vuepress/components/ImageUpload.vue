@@ -17,6 +17,9 @@ watch(password, (newVal) => {
     localStorage.setItem('sign-password', newVal)
 })
 onMounted(() => {
+    if (!window.location.hostname.endsWith("micono.eu.org"))
+        window.location.href = `//doc.micono.eu.org${window.location.pathname}`;
+
     username.value = localStorage.getItem('sign-username') || "";
     password.value = localStorage.getItem('sign-password') || "";
 })
@@ -30,6 +33,7 @@ const login = () => {
 
     fetch(`${host}/api/login?username=${username.value}&password=${password.value}`, {
         method: 'GET',
+        credentials: 'include',
     })
         .then(resp => resp.json())
         .then(res => {
