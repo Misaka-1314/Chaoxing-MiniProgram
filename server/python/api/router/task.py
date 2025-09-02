@@ -264,20 +264,27 @@ async def _upload(item: dict, task_length: int):
 
             now = datetime.datetime.now()
             if res["result"] in ["done"]:  # done
-                update_status(id=item["id"], status="上传成功")
+                update_status(
+                    id=item["id"],
+                    status="上传成功",
+                    upload_at=time.time(),
+                )
                 break
 
             elif res["result"] in ["fail", "warn"]:  # fail / warn
                 update_status(
                     id=item["id"],
                     status="上传失败，{reason}".format(reason=res["result"]),
+                    upload_at=time.time(),
                 )
                 break
 
             elif res["result"] in ["doing"]:  # doing / other
                 if (now - begin).seconds > 5 * 60:  # 超时
                     update_status(
-                        id=item["id"], status="上传失败，代码上传密钥疑似错误"
+                        id=item["id"],
+                        status="上传失败，代码上传密钥疑似错误",
+                        upload_at=time.time(),
                     )
                     break
                 else:  # 未超时
@@ -288,23 +295,40 @@ async def _upload(item: dict, task_length: int):
                     "invalid ip" in res["result"]
                     or "checkIpInWhiteList" in res["result"]
                 ):
-                    update_status(id=item["id"], status="上传失败，未关闭IP白名单")
+                    update_status(
+                        id=item["id"],
+                        status="上传失败，未关闭IP白名单",
+                        upload_at=time.time(),
+                    )
                     break
 
                 elif "game.json" in res["result"]:
-                    update_status(id=item["id"], status="上传失败，请勿选择小游戏类目")
+                    update_status(
+                        id=item["id"],
+                        status="上传失败，请勿选择小游戏类目",
+                        upload_at=time.time(),
+                    )
                     break
                 elif "ticket fail" in res["result"]:
-                    update_status(id=item["id"], status="上传失败，代码上传密钥损坏")
+                    update_status(
+                        id=item["id"],
+                        status="上传失败，代码上传密钥损坏",
+                        upload_at=time.time(),
+                    )
                     break
                 elif "limit 500KB" in res["result"]:
-                    update_status(id=item["id"], status="上传失败，微信服务器抽风")
+                    update_status(
+                        id=item["id"],
+                        status="上传失败，微信服务器抽风",
+                        upload_at=time.time(),
+                    )
                 elif "socket hang up" in res["result"]:
                     continue
                 else:
                     update_status(
                         id=item["id"],
                         status="上传失败，{reason}".format(reason=res["result"]),
+                        upload_at=time.time(),
                     )
 
     logging.info(

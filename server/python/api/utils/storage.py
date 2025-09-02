@@ -113,6 +113,7 @@ def update_status(
     upload_at: float = time.time(),
     id: Optional[int] = None,
     appid: Optional[str] = None,
+    **kwargs: Any,
 ) -> bool:
     """更新小程序上传状态"""
     return update_record(
@@ -120,6 +121,7 @@ def update_status(
         appid=appid,
         upload_at=upload_at,
         status=status,
+        **kwargs,
     )
 
 
