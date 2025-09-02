@@ -35,7 +35,7 @@ const filteredList = computed(() => {
                     'type': 'warning',
                 }
         })(),
-        "status": `${item.status || "排队中"} ${item.upload_at || ''}`
+        "status": item.upload_at ? `${item.status || "等待更新"} ${item.upload_at}` : `${item.status || "排队中"} ${item.upload_at}`,
     }));
 
     if (!keyword)

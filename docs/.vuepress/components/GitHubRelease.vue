@@ -5,7 +5,7 @@ import { ref, onMounted } from 'vue';
 const assets = ref([]);
 
 onMounted(() => {
-    fetch("https://api.github.com/repos/Misaka-1314/Chaoxing-MiniProgram/releases")
+    fetch("https://github.proxy.micono.eu.org/repos/Misaka-1314/Chaoxing-MiniProgram/releases")
         .then(resp => resp.json())
         .then(res => {
             const latest = res[0];
