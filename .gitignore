@@ -24,4 +24,6 @@ web/app/login/api.js
 project.private.config.json
 package-lock.json
 
+!force_update_all.sh
+
 __pycache__/
