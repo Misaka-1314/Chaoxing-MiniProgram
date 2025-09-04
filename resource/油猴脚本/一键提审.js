@@ -68,9 +68,9 @@ const getRemark = () => {
             "#006CBE";
         setInterval(
             () =>
-                (document.getElementById(
-                    "one-click-submit"
-                ).innerText = `正在执行~♡ ${++count} s`),
+            (document.getElementById(
+                "one-click-submit"
+            ).innerText = `正在执行~♡ ${++count} s`),
             1000
         );
 
@@ -83,7 +83,7 @@ const getRemark = () => {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
-                    Accept: "application/json, text/plain, */*",
+                    "Accept": "application/json, text/plain, */*",
                 },
             }
         )
@@ -107,9 +107,8 @@ const getRemark = () => {
                         {
                             method: "POST",
                             headers: {
-                                "Content-Type":
-                                    "application/x-www-form-urlencoded",
-                                Accept: "application/json, text/plain, */*",
+                                "Content-Type": "application/x-www-form-urlencoded",
+                                "Accept": "application/json, text/plain, */*",
                             },
                             body: toFormData({
                                 openid: openid,
@@ -123,9 +122,8 @@ const getRemark = () => {
                         {
                             method: "POST",
                             headers: {
-                                "Content-Type":
-                                    "application/x-www-form-urlencoded",
-                                Accept: "application/json, text/plain, */*",
+                                "Content-Type": "application/x-www-form-urlencoded",
+                                "Accept": "application/json, text/plain, */*",
                             },
                             body: toFormData({
                                 openid: openid,
@@ -138,15 +136,15 @@ const getRemark = () => {
                 fetch(
                     `https://mp.weixin.qq.com/wxamp/cgi/route?path=${encodeURIComponent(
                         "/wxopen/wadevelopcode?action=get_class&" +
-                            route_query +
-                            "&openid=" +
-                            openid
+                        route_query +
+                        "&openid=" +
+                        openid
                     )}&token=${token}&lang=zh_CN&random=${random}`,
                     {
                         method: "GET",
                         headers: {
                             "Content-Type": "application/x-www-form-urlencoded",
-                            Accept: "application/json, text/plain, */*",
+                            "Accept": "application/json, text/plain, */*",
                         },
                     }
                 )
@@ -164,7 +162,7 @@ const getRemark = () => {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/x-www-form-urlencoded",
-                            Accept: "application/json, text/plain, */*",
+                            "Accept": "application/json, text/plain, */*",
                         },
                         body: toFormData({
                             ticket: "qrcheckTicket",
@@ -220,7 +218,7 @@ const getRemark = () => {
                         }),
                         headers: {
                             "Content-Type": "application/x-www-form-urlencoded",
-                            Accept: "application/json, text/plain, */*",
+                            "Accept": "application/json, text/plain, */*",
                         },
                     }
                 );

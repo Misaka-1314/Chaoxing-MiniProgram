@@ -106,6 +106,7 @@ def update_record(
         ),
     )
     conn.commit()
+    return True
 
 
 def update_status(
