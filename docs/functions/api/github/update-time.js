@@ -21,7 +21,7 @@ const response = (res) =>
 
 export async function onRequestGet({ request, params, env }) {
     const resp = await fetch(
-        `https://api.github.com/repos/${env.repo}/commits?sha=main&per_page=3`, {
+        `https://api.github.com/repos/${env.repo}/commits?path=miniprogram&sha=main&per_page=3`, {
         "method": "GET",
         "headers": {
             "Authorization": `Bearer ${env.token}`,
