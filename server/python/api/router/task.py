@@ -23,6 +23,7 @@ from const import client
 
 UPLOAD_SERVER = os.getenv("UPLOAD_SERVER")
 CALLBACK_SERVER = os.getenv("CALLBACK_SERVER")
+MIN_TIME = 946656000
 
 router = APIRouter()
 
@@ -82,7 +83,11 @@ async def _(
     request: Request,
     id: int,
 ):
-    res = update_status(id=id, status="")
+    res = update_status(
+        id=id,
+        status="",
+        upload_at="",
+    )
     return {
         "status": 0,
         "msg": "已强制重置任务状态" if res else "不存在",
@@ -339,13 +344,21 @@ async def _upload(item: dict, task_length: int):
 async def worker():
     async def _task():
         _list: list[dict] = list_records()
+        # 过滤已完成的任务
         _list = [
             item
             for item in _list
             if item and "成功" not in (item["status"] or "排队中")
         ]
-        _list.sort(key=lambda x: x["create_at"], reverse=True)
-        _list.sort(key=lambda x: "失败" in (x["status"] or "排队中"))
+        # 任务排序
+        _list.sort(
+            key=lambda x: (
+                not x["upload_at"],
+                "失败" not in x["status"],
+                x["create_at"],
+            ),
+            reverse=True,
+        )
         logging.info(f"当前任务状态: {len(_list)} 条待处理记录")
 
         for index, item in enumerate(_list):
