@@ -74,7 +74,7 @@ const getRemark = () => {
             1000
         );
 
-        const route_query = `f = json & token=${token}& lang=zh_CN`;
+        const route_query = `f=json&token=${token}&lang=zh_CN`;
         fetch(
             `https://mp.weixin.qq.com/wxamp/cgi/route?path=${encodeURIComponent(
                 "/wxopen/wacodepage?action=getcodepage&" + route_query
