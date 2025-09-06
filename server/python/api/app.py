@@ -1,4 +1,4 @@
-from fastapi.responses import RedirectResponse, JSONResponse, Response
+from fastapi.responses import RedirectResponse, JSONResponse, Response, HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import HTTPException
 from contextlib import asynccontextmanager
@@ -43,7 +43,15 @@ app.include_router(task_router, prefix="/api/task", tags=["Task"])
 
 @app.get("/")
 async def root() -> RedirectResponse:
-    return RedirectResponse("https://doc.micono.eu.org/tools/web.html", status_code=301)
+    with open("assets/home.html", "r", encoding="utf-8") as f:
+        return HTMLResponse(
+            content=f.read(),
+            status_code=200,
+            media_type="text/html",
+            headers={
+                "Cache-Control": "public, max-age=15552000, immutable",
+            },
+        )
 
 
 @app.get("/image")

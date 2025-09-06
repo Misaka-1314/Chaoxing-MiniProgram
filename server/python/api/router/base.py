@@ -47,7 +47,12 @@ async def _(
     res: dict = resp.json()
     cookies[username] = resp.cookies
 
-    response = JSONResponse(content=res)
+    response = JSONResponse(
+        content=res,
+        headers={
+            "Cache-Control": "private, max-age=3600",
+        },
+    )
     for cookie in resp.cookies:
         response.set_cookie(
             key=cookie,
@@ -73,7 +78,12 @@ async def _(
         },
         cookies=dict(request.cookies),
     )
-    return resp.json()
+    return JSONResponse(
+        content=resp.json(),
+        headers={
+            "Cache-Control": "private, max-age=300",
+        },
+    )
 
 
 @router.get("/pan/token")
@@ -91,6 +101,7 @@ async def _(
             "puid": request.cookies.get("UID"),
         },
         headers={
+            "Cache-Control": "private, max-age=3600",
             "Access-Control-Allow-Origin": request.headers.get("Origin", "*"),
         },
     )

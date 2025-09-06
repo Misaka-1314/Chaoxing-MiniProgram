@@ -48,8 +48,8 @@ async def _(
 ):
     _list = list_records()
     _list.sort(key=lambda x: x["create_at"], reverse=True)
-    resp = JSONResponse(
-        {
+    return JSONResponse(
+        content={
             "status": 0,
             "data": [
                 {
@@ -72,10 +72,11 @@ async def _(
                 }
                 for item in _list
             ],
-        }
+        },
+        headers={
+            "Cache-Control": "max-age=15, public",
+        },
     )
-    resp.headers["Cache-Control"] = "max-age=15, public"
-    return resp
 
 
 @router.get("/force", description="强制重置任务状态")
