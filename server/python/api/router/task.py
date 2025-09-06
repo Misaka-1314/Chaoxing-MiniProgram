@@ -390,7 +390,7 @@ async def worker():
 
     while True:
         try:
-            await asyncio.wait_for(_task(), timeout=3600)
+            await asyncio.wait_for(_task(), timeout=8 * 3600)
         except asyncio.TimeoutError:
             logging.info("任务处理超时")
         except Exception as e:
