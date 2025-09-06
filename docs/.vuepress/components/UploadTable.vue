@@ -22,7 +22,7 @@ const filteredList = computed(() => {
         "secret": item.secret ? "已配置" : "未配置",
         "style-class": (item.status || "").includes('失败') ? 'item-fail' : '',
         "button": (() => {
-            if (!item.status)
+            if (!item.status || item.status == "上传中")
                 return null;
             else if (item.status.includes("成功"))
                 return {
@@ -35,7 +35,7 @@ const filteredList = computed(() => {
                     'type': 'warning',
                 }
         })(),
-        "status": item.upload_at ? `${item.status || "等待更新"} ${item.upload_at}` : `${item.status || "排队中"} ${item.upload_at}`,
+        "status": item.status || (item.upload_at ? "等待更新" : "排队中"),
     }));
 
     if (!keyword)
@@ -117,6 +117,7 @@ const upgrade = (item) => {
                             <th>操作</th>
                             <th>AppID</th>
                             <th>上传结果</th>
+                            <th>上传时间</th>
                             <th>手机号</th>
                             <th>Secret</th>
                             <th>填写问卷时间</th>
@@ -124,7 +125,7 @@ const upgrade = (item) => {
                     </thead>
                     <tbody>
                         <tr v-if="msg">
-                            <td colspan="7" class="no-data">{{ msg }}</td>
+                            <td colspan="8" class="no-data">{{ msg }}</td>
                         </tr>
                         <tr v-for="item in filteredList" :key="item.appid" :class="[item['style-class']]">
                             <td>{{ item.id }}</td>
@@ -136,6 +137,7 @@ const upgrade = (item) => {
                             </td>
                             <td class="item-appid">{{ item.appid }}</td>
                             <td>{{ item.status }}</td>
+                            <td>{{ item.upload_at }}</td>
                             <td>{{ item.mobile }}</td>
                             <td>{{ item.secret }}</td>
                             <td>{{ item.create_at }}</td>
@@ -217,5 +219,7 @@ td {
 
 .no-data {
     text-align: left;
+    font-size: 16px;
+    font-weight: 600;
 }
 </style>
