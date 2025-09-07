@@ -1,24 +1,31 @@
 // ==UserScript==
 // @name         微信小程序一键提审
 // @namespace    https://mp.weixin.qq.com/
-// @version      1.0.1
+// @version      1.0.2
 // @author       Misaka
 // @match        https://mp.weixin.qq.com/wxamp/*
-// @grant        none
+// @grant        GM_setValue
+// @grant        GM_getValue
+// @grant        GM_deleteValue
+// @grant        GM_listValues
 // @updateURL    https://cdn.oplist.org/gh/Misaka-1314/Chaoxing-MiniProgram@main/resource/油猴脚本/一键提审.js
 // @downloadURL  https://cdn.oplist.org/gh/Misaka-1314/Chaoxing-MiniProgram@main/resource/油猴脚本/一键提审.js
 // ==/UserScript==
 
 // 获取 remark 的函数
 const getRemark = () => {
-    let remark = localStorage.getItem("remark");
+    let remark = GM_getValue("remark", null);
     if (!remark) {
         const account = prompt("请输入测试账号：", "");
         const password = prompt("请输入测试密码：", "");
         if (account && password) {
             remark = `部分功能需要登录账号体验\n\n测试账号：${account}\n密码：${password}`;
-            localStorage.setItem("remark", remark);
-        } else remark = "部分功能需要登录账号体验";
+            GM_setValue("remark", remark);
+        }
+        else {
+            alert("未输入测试账号或密码，无法提交审核~♡");
+            throw new Error("未输入测试账号或密码，无法提交审核~♡");
+        }
     }
     return remark;
 };
