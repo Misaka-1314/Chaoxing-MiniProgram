@@ -23,6 +23,8 @@ from const import client
 
 UPLOAD_SERVER = os.getenv("UPLOAD_SERVER")
 CALLBACK_SERVER = os.getenv("CALLBACK_SERVER")
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+GITHUB_REPO = os.getenv("GITHUB_REPO")
 MIN_TIME = 946656000
 
 router = APIRouter()
@@ -245,6 +247,27 @@ def _handle_key(item: dict) -> str:
         return key
 
 
+async def _get_updatetime() -> int:
+    """获取代码更新时间"""
+    resp = await client.get(
+        url=f"https://api.github.com/repos/{GITHUB_REPO}/commits?path=miniprogram&sha=main&per_page=3",
+        headers={
+            "Authorization": f"Bearer {GITHUB_TOKEN}",
+            "Accept": "application/vnd.github.v3+json",
+            "User-Agent": "misaka-docs",
+        },
+    )
+    resp.raise_for_status()
+    res: dict = resp.json()
+    iso_date = res[0]["commit"]["committer"]["date"]
+    utc_time = datetime.datetime.strptime(iso_date, r"%Y-%m-%dT%H:%M:%SZ").replace(
+        tzinfo=datetime.timezone.utc
+    )
+    date = utc_time.astimezone(datetime.timezone(datetime.timedelta(hours=8)))
+    logging.info(f"获取代码更新时间 {date}")
+    return date.timestamp()
+
+
 async def _upload(item: dict, task_length: int):
     """向代码上传服务器提交任务"""
     logging.info(f"{item['task-index']:04d}/{task_length} 开始上传 {item['appid']}")
@@ -344,23 +367,38 @@ async def _upload(item: dict, task_length: int):
 
 async def worker():
     async def _task():
-        _list: list[dict] = list_records()
-        # 过滤已完成的任务
+        _list1: list[dict] = list_records()
+        # 过滤空数据
+        _list2 = [x for x in _list1 if x]
+        # 过滤已完成更新的任务
+        _updatetime = await _get_updatetime()
+        _list3 = [
+            x
+            for x in _list2
+            if not ("成功" in (x["status"] or "") and x["upload_at"] > _updatetime)
+        ]
+        # 过滤失败频繁的任务
         _list = [
-            item
-            for item in _list
-            if item and "成功" not in (item["status"] or "排队中")
+            x
+            for x in _list3
+            if not (
+                "失败" in (x["status"] or "")
+                and x["upload_at"] + 3600 * 8 > time.time()
+            )
         ]
         # 任务排序
         _list.sort(
             key=lambda x: (
+                "成功" not in (x["status"] or ""),
                 not x["upload_at"],
-                "失败" not in x["status"],
+                "失败" not in (x["status"] or ""),
                 x["create_at"],
             ),
             reverse=True,
         )
-        logging.info(f"当前任务状态: {len(_list)} 条待处理记录")
+        logging.info(
+            f"当前任务总数 {len(_list2)}，未完成任务数 {len(_list3)}，本轮处理任务数 {len(_list)}"
+        )
 
         for index, item in enumerate(_list):
             item["task-index"] = index + 1
@@ -391,7 +429,7 @@ async def worker():
 
     while True:
         try:
-            await asyncio.wait_for(_task(), timeout=8 * 3600)
+            await asyncio.wait_for(_task(), timeout=2 * 3600)
         except asyncio.TimeoutError:
             logging.info("任务处理超时")
         except Exception as e:
