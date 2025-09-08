@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学习通设备特征码</title>
+    <script src="https://mobilelearn-static.chaoxing.com/mobilelearn/js/jquery.min.js" type="text/javascript"></script>
+    <script src="https://mobilelearn-static.chaoxing.com/mobilelearn/front/mobile/sign/js/CXJSBridge.js"
+        type="text/javascript"></script>
+    <script src="https://mobilelearn-static.chaoxing.com/mobilelearn/front/mobile/common/app.utils.js"
+        type="text/javascript"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+            transition: background 0.3s ease;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 480px;
+            overflow: hidden;
+            padding: 24px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 22px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-left: 3px solid #6e8efb;
+            transition: all 0.3s ease;
+        }
+
+        .info-item {
+            margin-bottom: 12px;
+            display: flex;
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #2c3e50;
+            width: 90px;
+            flex-shrink: 0;
+            font-size: 14px;
+        }
+
+        .info-value {
+            flex: 1;
+            color: #34495e;
+            word-break: break-all;
+            padding: 8px 12px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            font-size: 13px;
+            min-height: 36px;
+            transition: all 0.3s ease;
+        }
+
+        .info-value:hover {
+            border-color: #6e8efb;
+            box-shadow: 0 0 0 2px rgba(110, 142, 251, 0.2);
+        }
+
+        .device-code {
+            font-family: monospace;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #6e8efb, #a777e3);
+            color: white;
+            box-shadow: 0 4px 6px rgba(110, 142, 251, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, #5d7eea, #9666d2);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(110, 142, 251, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(110, 142, 251, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to right, #ecf0f1, #dde4e6);
+            color: #2c3e50;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(to right, #dde4e6, #d1d9dc);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.12);
+        }
+
+        .btn-secondary:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(44, 62, 80, 0.95);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 1000;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            opacity: 0;
+            height: 0;
+            transition: all 0.3s ease;
+        }
+
+        .loading.active {
+            opacity: 1;
+            height: auto;
+        }
+
+        .spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid rgba(110, 142, 251, 0.2);
+            border-top: 3px solid #6e8efb;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .status-message {
+            text-align: center;
+            padding: 16px;
+            color: #7f8c8d;
+            font-size: 13px;
+            min-height: 24px;
+        }
+
+        .error-message {
+            background: #ffecec;
+            color: #e74c3c;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 16px;
+            border-left: 3px solid #e74c3c;
+            font-size: 13px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-message {
+            background: #e8f6ef;
+            color: #27ae60;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 16px;
+            border-left: 3px solid #27ae60;
+            font-size: 13px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .hint {
+            text-align: center;
+            color: #95a5a6;
+            font-size: 13px;
+            margin-top: 16px;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>学习通设备特征码</h1>
+            <p>点击下方按钮获取您的设备标识信息</p>
+        </div>
+
+        <div class="info-card">
+            <div class="info-item">
+                <div class="info-label">用户ID</div>
+                <div class="info-value" id="uid-value">未获取</div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-label">用户名</div>
+                <div class="info-value" id="name-value">未获取</div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-label">设备特征码</div>
+                <div class="info-value device-code" id="device-code-value">未获取</div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-primary" id="get-info-btn">获取信息</button>
+            <button class="btn btn-secondary" id="copy-btn" disabled>复制特征码</button>
+        </div>
+
+        <div class="loading" id="loading-spinner">
+            <div class="spinner"></div>
+        </div>
+
+        <div class="status-message" id="status-message"></div>
+
+        <div class="hint">请确保您已安装最新版学习通App</div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let uid = '';
+            let name = '';
+            let deviceCode = '';
+
+            const uidValue = document.getElementById('uid-value');
+            const nameValue = document.getElementById('name-value');
+            const deviceCodeValue = document.getElementById('device-code-value');
+            const getInfoBtn = document.getElementById('get-info-btn');
+            const copyBtn = document.getElementById('copy-btn');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const statusMessage = document.getElementById('status-message');
+            const toast = document.getElementById('toast');
+
+            const showLoading = () => {
+                loadingSpinner.classList.add('active');
+                statusMessage.textContent = '正在获取设备信息...';
+                uidValue.textContent = '获取中...';
+                nameValue.textContent = '获取中...';
+                deviceCodeValue.textContent = '获取中...';
+                copyBtn.disabled = true;
+            };
+
+            const hideLoading = () => {
+                loadingSpinner.classList.remove('active');
+                statusMessage.textContent = '';
+            };
+
+            const showToast = (message, isError = false) => {
+                toast.textContent = message;
+                toast.style.background = isError ? 'rgba(231, 76, 60, 0.95)' : 'rgba(44, 62, 80, 0.95)';
+                toast.classList.add('show');
+
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            };
+
+            const copyToClipboard = (text) => {
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        showToast('设备特征码已复制到剪贴板');
+                    }).catch(() => {
+                        fallbackCopyText(text);
+                    });
+                } else {
+                    fallbackCopyText(text);
+                }
+            };
+
+            const fallbackCopyText = (text) => {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+
+                try {
+                    document.execCommand('copy');
+                    showToast('设备特征码已复制');
+                } catch (err) {
+                    showToast('复制失败，请手动复制', true);
+                }
+
+                document.body.removeChild(textArea);
+            };
+
+            const getDeviceInfo = () => {
+                showLoading();
+
+                try {
+                    AppUtils.getUserInfo("", (data) => {
+                        uid = data.puid;
+                        name = data.name;
+
+                        uidValue.textContent = uid;
+                        nameValue.textContent = name;
+
+                        try {
+                            jsBridge.bind('CLIENT_DEVICE_FLAG', (object) => {
+                                if (object && object.flagInfo) {
+                                    deviceCode = object.flagInfo.replace(/[\r\n]+$/, '');
+                                    deviceCodeValue.textContent = deviceCode;
+                                    hideLoading();
+                                    copyBtn.disabled = false;
+
+                                    statusMessage.innerHTML = '<div class="success-message">设备信息获取成功</div>';
+                                } else {
+                                    hideLoading();
+                                    statusMessage.innerHTML = '<div class="error-message">未能成功获取您的设备特征码，请使用最新版学习通重试</div>';
+                                }
+                            });
+
+                            jsBridge.postNotification("CLIENT_DEVICE_FLAG", {});
+                        } catch (e) {
+                            hideLoading();
+                            statusMessage.innerHTML = `<div class="error-message">获取设备特征码失败: ${e}</div>`;
+                        }
+                    });
+                } catch (e) {
+                    hideLoading();
+                    statusMessage.innerHTML = `<div class="error-message">获取用户信息失败: ${e}</div>`;
+                }
+            };
+
+            getInfoBtn.addEventListener('click', getDeviceInfo);
+
+            copyBtn.addEventListener('click', () => {
+                if (deviceCode) {
+                    copyToClipboard(deviceCode);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -54,6 +54,19 @@ async def root() -> RedirectResponse:
         )
 
 
+@app.get("/deviceCode")
+async def deviceCode() -> RedirectResponse:
+    with open("assets/deviceCode.html", "r", encoding="utf-8") as f:
+        return HTMLResponse(
+            content=f.read(),
+            status_code=200,
+            media_type="text/html",
+            headers={
+                "Cache-Control": "public, max-age=15552000, immutable",
+            },
+        )
+
+
 @app.get("/image")
 @app.get("/login")
 async def _() -> RedirectResponse:
