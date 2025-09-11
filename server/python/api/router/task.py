@@ -309,7 +309,7 @@ async def _upload(item: dict, task_length: int):
                 break
 
             elif res["result"] in ["doing"]:  # doing / other
-                if (now - begin).seconds > 5 * 60:  # 超时
+                if (now - begin).seconds > 2 * 60:  # 超时
                     update_status(
                         id=item["id"],
                         status="上传失败，代码上传密钥疑似错误",
@@ -392,7 +392,7 @@ async def worker():
                 "成功" not in (x["status"] or ""),
                 not x["upload_at"],
                 "失败" not in (x["status"] or ""),
-                x["create_at"],
+                x["upload_at"] or MIN_TIME,
             ),
             reverse=True,
         )
@@ -400,38 +400,44 @@ async def worker():
             f"当前任务总数 {len(_list2)}，未完成任务数 {len(_list3)}，本轮处理任务数 {len(_list)}"
         )
 
-        for index, item in enumerate(_list):
-            item["task-index"] = index + 1
-            await asyncio.sleep(0.1)
+        async def _upload_task(_list):
+            for index, item in enumerate(_list):
+                item["task-index"] = index + 1
+                await asyncio.sleep(0.1)
 
-            if len(item["appid"]) != 18:
-                update_status(id=item["id"], status="校验失败，AppID不是18位")
-                continue
-            if len(item["mobile"]) != 11:
-                update_status(id=item["id"], status="校验失败，手机号不是11位")
-                continue
-            if len(item["key"]) < 1000:
-                update_status(id=item["id"], status="校验失败，代码上传密钥明细错误")
-                continue
-            item["key"] = _handle_key(item)
-            if not item["key"]:
-                update_status(id=item["id"], status="校验失败，无效的代码上传密钥")
-                continue
+                if len(item["appid"]) != 18:
+                    update_status(id=item["id"], status="校验失败，AppID不是18位")
+                    continue
+                if len(item["mobile"]) != 11:
+                    update_status(id=item["id"], status="校验失败，手机号不是11位")
+                    continue
+                if len(item["key"]) < 1000:
+                    update_status(
+                        id=item["id"], status="校验失败，代码上传密钥明细错误"
+                    )
+                    continue
+                item["key"] = _handle_key(item)
+                if not item["key"]:
+                    update_status(id=item["id"], status="校验失败，无效的代码上传密钥")
+                    continue
 
-            await _auth_check(item)
+                await _auth_check(item)
 
-            try:
-                await asyncio.wait_for(_upload(item, len(_list)), timeout=5 * 60)
-            except asyncio.TimeoutError:
-                continue
+                try:
+                    await asyncio.wait_for(_upload(item, len(_list)), timeout=3 * 60)
+                except asyncio.TimeoutError:
+                    continue
+
+        try:
+            await asyncio.wait_for(_upload_task(_list), timeout=len(_list) * 3 * 60)
+        except asyncio.TimeoutError:
+            logging.info("任务处理超时")
 
         logging.info("任务处理完成")
 
     while True:
         try:
-            await asyncio.wait_for(_task(), timeout=2 * 3600)
-        except asyncio.TimeoutError:
-            logging.info("任务处理超时")
+            await _task()
         except Exception as e:
             logging.warning(f"任务处理异常 {e} {e.__class__.__name__}", exc_info=True)
         else:
