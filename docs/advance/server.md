@@ -1,20 +1,18 @@
 ---
-title: 服务端
+title: 反代服务器
 icon: iconfont icon-study
 category:
   - Advance
 tag:
   - Advance
-order: 15
+order: 25
 ---
 
 # 反向代理服务端部署教程
 
 > 微信小程序配置服务器域名 要求域名已备案
 >
-> 自用无需备案，体验版开启调试模式即可  
->
-> 有问题可以在 QQ频道 交流
+> 自用无需备案，体验版开启调试模式即可
 
 ## 使用 CDN 或边缘函数反代
 
@@ -35,9 +33,9 @@ order: 15
 
 [![使用 腾讯云 EdgeOne 边缘函数部署](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://edgeone.ai/pages/new?repository-url=https%3a%2f%2fgithub.com%2fMisaka-1314%2fChaoxing-MiniProgram%2ftree%2fmain%2fserver%2fedgeone&project-name=cx-proxy&repository-name=cx-proxy)
 
-### 使用腾讯云 EdgeOne CDN
+### 使用腾讯云 EdgeOne 站点加速
 
-教程暂未完成
+<img src="/image/guide/EO加速.png" style="width: min(60vw, 480px)" />
 
 ## 自建反代服务器
 

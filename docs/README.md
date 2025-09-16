@@ -5,7 +5,7 @@ title: 首页
 index: false
 heroImage: https://avatars.githubusercontent.com/u/163529042?v=4
 heroText: 御坂学习 微信小程序
-tagline: 一个学习通签到工具，基于原生微信小程序开发，使用 TDesign 组件库！
+tagline: 一个学习通签到工具，基于原生微信小程序开发，使用 TDesign 组件库。包含开源版和非开源版两个版本，开源版请移步 GitHub。
 actions:
   - text: 使用指南💡
     link: /guide/
@@ -45,7 +45,7 @@ features:
 
   - title: 一起签
     icon: iconfont icon-yiqiwan-
-    details: 一次扫码，为无限人签到。
+    details: VIP尊享：一次扫码，为无限人签到。
 
   - title: 各种类型
     icon: iconfont icon-gezhongxuni

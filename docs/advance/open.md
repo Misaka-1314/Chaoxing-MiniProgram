@@ -1,5 +1,5 @@
 ---
-title: 开源小程序
+title: 开源版
 icon: iconfont icon-study
 category:
   - Advance
