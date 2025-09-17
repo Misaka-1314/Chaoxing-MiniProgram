@@ -81,6 +81,7 @@ if __name__ == "__main__":
             port=8000,
             reload=False,
             log_config=None,
+            forwarded_allow_ips="172.16.0.0/12",
             workers=1,
             headers=[
                 ("X-Server-Start-Time", now.strftime(r"%Y-%m-%d %H:%M:%S")),

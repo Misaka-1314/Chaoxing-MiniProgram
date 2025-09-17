@@ -1,3 +1,4 @@
+from typing import Optional
 import asyncio
 import json
 import os
@@ -27,3 +28,12 @@ async def worker():
             print("启动监控成功", uid, process.pid)
         else:
             print("启动监控失败", uid, process.returncode)
+
+
+async def sign(
+    uid: int,
+    activeId: int,
+    classId: Optional[int] = None,
+    courseId: Optional[int] = None,
+):
+    """执行签到任务"""
