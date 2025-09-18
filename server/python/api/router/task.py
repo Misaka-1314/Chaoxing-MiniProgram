@@ -21,7 +21,7 @@ from utils.storage import (
 from utils.logger import logging
 from const import client
 
-UPLOAD_SERVER = os.getenv("UPLOAD_SERVER")
+UPLOAD_HOST = os.getenv("UPLOAD_HOST")
 CALLBACK_SERVER = os.getenv("CALLBACK_SERVER")
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 GITHUB_REPO = os.getenv("GITHUB_REPO")
@@ -249,23 +249,21 @@ def _handle_key(item: dict) -> str:
 
 async def _get_updatetime() -> int:
     """获取代码更新时间"""
-    resp = await client.get(
-        url=f"https://api.github.com/repos/{GITHUB_REPO}/commits?path=miniprogram&sha=main&per_page=3",
-        headers={
-            "Authorization": f"Bearer {GITHUB_TOKEN}",
-            "Accept": "application/vnd.github.v3+json",
-            "User-Agent": "misaka-docs",
-        },
-    )
-    resp.raise_for_status()
-    res: dict = resp.json()
-    iso_date = res[0]["commit"]["committer"]["date"]
-    utc_time = datetime.datetime.strptime(iso_date, r"%Y-%m-%dT%H:%M:%SZ").replace(
-        tzinfo=datetime.timezone.utc
-    )
-    date = utc_time.astimezone(datetime.timezone(datetime.timedelta(hours=8)))
-    logging.info(f"获取代码更新时间 {date}")
-    return date.timestamp()
+    while True:
+        try:
+            resp = await client.get(url=f"{UPLOAD_HOST}/ci/status", timeout=None)
+            resp.raise_for_status()
+            res: dict = resp.json()
+            version: str = res["data"]["version"]
+            logging.info(f"获取代码版本号 {version}")
+        except Exception as e:
+            logging.warning(f"获取版本号失败 {e} {e.__class__.__name__}", exc_info=True)
+            await asyncio.sleep(5)
+        else:
+            parts = version.split(".")
+            year, month, day = int(parts[1]), int(parts[2]), int(parts[3])
+            dt = datetime.datetime(year, month, day, 23, 59, 59)
+            return int(dt.timestamp())
 
 
 async def _upload(item: dict, task_length: int):
@@ -283,7 +281,11 @@ async def _upload(item: dict, task_length: int):
                 "disable": False,
                 "callback": CALLBACK_SERVER,
             }
-            resp = await client.post(url=UPLOAD_SERVER, timeout=10.0, data=body)
+            resp = await client.post(
+                url="{host}/ci/upload".format(host=UPLOAD_HOST),
+                timeout=10.0,
+                data=body,
+            )
             res: dict = resp.json()
         except Exception:
             continue
