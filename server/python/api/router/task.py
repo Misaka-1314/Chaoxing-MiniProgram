@@ -25,6 +25,7 @@ UPLOAD_HOST = os.getenv("UPLOAD_HOST")
 CALLBACK_SERVER = os.getenv("CALLBACK_SERVER")
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 GITHUB_REPO = os.getenv("GITHUB_REPO")
+WHITE_APPID = os.getenv("WHITE_APPID")
 MIN_TIME = 946656000
 
 router = APIRouter()
@@ -270,7 +271,22 @@ async def _get_updatetime() -> int:
 
 async def _upload(item: dict, task_length: int):
     """向代码上传服务器提交任务"""
-    logging.info(f"{item['task-index']:04d}/{task_length} 开始上传 {item['appid']}")
+    logging.info(
+        "{index:04d}/{length} 开始上传 {appid} (上次结果: {result}, 上次上传: {upload_at}, 填写时间: {create_at})".format(
+            index=item["task-index"],
+            length=task_length,
+            appid=item["appid"],
+            upload_at=datetime.datetime.fromtimestamp(
+                item["upload_at"], ZoneInfo("Asia/Shanghai")
+            ).strftime(r"%Y-%m-%d %H:%M")
+            if item["upload_at"]
+            else "None",
+            create_at=datetime.datetime.fromtimestamp(
+                item["create_at"], ZoneInfo("Asia/Shanghai")
+            ).strftime(r"%Y-%m-%d %H:%M"),
+            result=item["status"] or "None",
+        )
+    )
     begin = datetime.datetime.now()
     while True:
         await asyncio.sleep(1.5)
@@ -394,8 +410,9 @@ async def worker():
         # 任务排序
         _list.sort(
             key=lambda x: (
-                not (x["upload_at"] and x["status"]),  # 1st优先：没有上传记录的
-                "成功" in (x["status"] or ""),  # 2nd优先：成功上传过的
+                x["appid"] in (WHITE_APPID or "").split(","),  # 1st优先：白名单
+                not (x["upload_at"] and x["status"]),  # 2nd优先：没有上传记录的
+                "成功" in (x["status"] or ""),  # 3rd优先：成功上传过的
             ),
             reverse=True,
         )
