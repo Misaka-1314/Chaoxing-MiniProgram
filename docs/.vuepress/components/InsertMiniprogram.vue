@@ -1,11 +1,8 @@
 <!-- Script Setup -->
 <script setup lang="js">
-import { ref, computed } from 'vue';
-import { useDarkMode } from "vuepress-theme-hope/client";
-import { NForm, NFormItem, NInput, NButton, NCode, NConfigProvider, darkTheme } from 'naive-ui';
+import { ref } from 'vue';
+import { NForm, NFormItem, NInput, NButton } from 'naive-ui';
 
-const { isDarkMode } = useDarkMode();
-const naiveTheme = computed(() => (isDarkMode.value ? darkTheme : null));
 
 const host = "https://cx.micono.eu.org";
 const form = ref({})
@@ -145,48 +142,46 @@ const submit = e => {
 
 <!-- HTML -->
 <template>
-    <NConfigProvider :theme="naiveTheme">
-        <div class="container">
-            <NForm :model="form" ref="form" label-placement="top" :rules="rules">
-                <NFormItem label="appid" path="appid">
-                    <template #label>
-                        <span class="label-title">AppID</span>
-                    </template>
-                    <NInput v-model:value="form.appid" placeholder="请复制并粘贴 AppID" />
-                </NFormItem>
-                <NFormItem label="secret" path="secret">
-                    <template #label>
-                        <span class="label-title">AppSecret</span>
-                    </template>
-                    <NInput v-model:value="form.secret" placeholder="请复制并粘贴 AppSecret" />
-                </NFormItem>
-                <NFormItem label="key" path="key">
-                    <template #label>
-                        <span class="label-title">小程序代码上传密钥</span>
-                        <NButton class="label-description" @click="readKeyFile">从文件中读取</NButton>
-                    </template>
-                    <NInput v-model:value="form.key" type="textarea" readonly placeholder="点击上方按钮从文件中读取" />
-                </NFormItem>
-                <NFormItem label="mobile" path="mobile">
-                    <template #label>
-                        <span class="label-title">手机号</span>
-                        <span class="label-description">你的学习通手机号，用于管理此小程序</span>
-                    </template>
-                    <NInput v-model:value="form.mobile" placeholder="请输入手机号" />
-                </NFormItem>
-                <NFormItem label="name" path="name">
-                    <template #label>
-                        <span class="label-title">小程序名称</span>
-                        <span class="label-description">（选填）</span>
-                    </template>
-                    <NInput v-model:value="form.name" placeholder="请输入小程序名称" />
-                </NFormItem>
-                <NButton type="primary" size="large" v-if="form?.status == 'success'" block disabled>已提交成功
-                </NButton>
-                <NButton type="primary" size="large" v-else block @click.prevent="submit">提交</NButton>
-            </NForm>
-        </div>
-    </NConfigProvider>
+    <div class="container">
+        <NForm :model="form" ref="form" label-placement="top" :rules="rules">
+            <NFormItem label="appid" path="appid">
+                <template #label>
+                    <span class="label-title">AppID</span>
+                </template>
+                <NInput v-model:value="form.appid" placeholder="请复制并粘贴 AppID" />
+            </NFormItem>
+            <NFormItem label="secret" path="secret">
+                <template #label>
+                    <span class="label-title">AppSecret</span>
+                </template>
+                <NInput v-model:value="form.secret" placeholder="请复制并粘贴 AppSecret" />
+            </NFormItem>
+            <NFormItem label="key" path="key">
+                <template #label>
+                    <span class="label-title">小程序代码上传密钥</span>
+                    <NButton class="label-description" @click="readKeyFile">从文件中读取</NButton>
+                </template>
+                <NInput v-model:value="form.key" type="textarea" readonly placeholder="点击上方按钮从文件中读取" />
+            </NFormItem>
+            <NFormItem label="mobile" path="mobile">
+                <template #label>
+                    <span class="label-title">手机号</span>
+                    <span class="label-description">你的学习通手机号，用于管理此小程序</span>
+                </template>
+                <NInput v-model:value="form.mobile" placeholder="请输入手机号" />
+            </NFormItem>
+            <NFormItem label="name" path="name">
+                <template #label>
+                    <span class="label-title">小程序名称</span>
+                    <span class="label-description">（选填）</span>
+                </template>
+                <NInput v-model:value="form.name" placeholder="请输入小程序名称" />
+            </NFormItem>
+            <NButton type="primary" size="large" v-if="form?.status == 'success'" block disabled>已提交成功
+            </NButton>
+            <NButton type="primary" size="large" v-else block @click.prevent="submit">提交</NButton>
+        </NForm>
+    </div>
 </template>
 
 <!-- Style -->

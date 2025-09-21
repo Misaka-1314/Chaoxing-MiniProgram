@@ -2,10 +2,8 @@
 <script setup lang="js">
 import { ref, computed } from 'vue';
 import { useDarkMode } from "vuepress-theme-hope/client";
-import { NForm, NFormItem, NInput, NButton, NCard, NCode, NRadio, NRadioGroup, NTabs, NTabPane, NConfigProvider, darkTheme } from 'naive-ui';
+import { NForm, NFormItem, NInput, NButton, NCard, NCode, NRadio, NRadioGroup, NTabs, NTabPane } from 'naive-ui';
 
-const { isDarkMode } = useDarkMode();
-const naiveTheme = computed(() => (isDarkMode.value ? darkTheme : null));
 
 const form = ref({});
 const acme = ref({});
@@ -248,54 +246,52 @@ class AcmeClient {
 
 <!-- HTML -->
 <template>
-    <NConfigProvider :theme="naiveTheme">
-        <NTabs type="segment" animated>
-            <NTabPane name="simplify" tab="精简模式">
-                <NCard title="第一步：配置账户与证书">
-                    <NForm :model="form" ref="form" label-placement="top" :rules="rules">
-                        <NFormItem label="邮箱" path="email">
-                            <NInput v-model:value="form.email" placeholder="请输入可以收件的邮箱" />
-                        </NFormItem>
-                        <NFormItem label="域名" path="domain">
-                            <NInput v-model:value="form.domain" type="textarea" placeholder="请输入域名，每行一个" />
-                        </NFormItem>
-                    </NForm>
-                </NCard>
-                <NCard title="第二步：验证域名归属">
-                </NCard>
-                <NCard title="第三步：下载证书">
-                </NCard>
-            </NTabPane>
-            <NTabPane name="advanced" tab="高级模式">
-                <NCard title="第一步：注册 ACME 账户">
-                    <NForm :model="form" ref="form" label-placement="top" :rules="rules">
-                        <NFormItem label="邮箱" path="email">
-                            <NInput v-model:value="form.email" placeholder="请输入可以收件的邮箱" />
-                        </NFormItem>
-                        <NFormItem label="私钥" path="privateKey">
-                            <NInput v-model:value="form.privateKey" type="textarea" placeholder="请输入账户私钥" />
-                        </NFormItem>
-                    </NForm>
-                </NCard>
-                <NCard title="第二步：证书配置">
-                    <NForm :model="form" ref="form" label-placement="top" :rules="rules">
-                        <NFormItem label="域名" path="domain">
-                            <NInput v-model:value="form.domain" type="textarea" placeholder="请输入域名，每行一个" />
-                        </NFormItem>
-                        <NFormItem label="私钥" path="privateKey">
-                            <NInput v-model:value="form.privateKey" type="textarea" placeholder="请输入证书私钥" />
-                        </NFormItem>
-                    </NForm>
-                </NCard>
-                <NCard title="第三步：验证域名归属">
+    <NTabs type="segment" animated>
+        <NTabPane name="simplify" tab="精简模式">
+            <NCard title="第一步：配置账户与证书">
+                <NForm :model="form" ref="form" label-placement="top" :rules="rules">
+                    <NFormItem label="邮箱" path="email">
+                        <NInput v-model:value="form.email" placeholder="请输入可以收件的邮箱" />
+                    </NFormItem>
+                    <NFormItem label="域名" path="domain">
+                        <NInput v-model:value="form.domain" type="textarea" placeholder="请输入域名，每行一个" />
+                    </NFormItem>
+                </NForm>
+            </NCard>
+            <NCard title="第二步：验证域名归属">
+            </NCard>
+            <NCard title="第三步：下载证书">
+            </NCard>
+        </NTabPane>
+        <NTabPane name="advanced" tab="高级模式">
+            <NCard title="第一步：注册 ACME 账户">
+                <NForm :model="form" ref="form" label-placement="top" :rules="rules">
+                    <NFormItem label="邮箱" path="email">
+                        <NInput v-model:value="form.email" placeholder="请输入可以收件的邮箱" />
+                    </NFormItem>
+                    <NFormItem label="私钥" path="privateKey">
+                        <NInput v-model:value="form.privateKey" type="textarea" placeholder="请输入账户私钥" />
+                    </NFormItem>
+                </NForm>
+            </NCard>
+            <NCard title="第二步：证书配置">
+                <NForm :model="form" ref="form" label-placement="top" :rules="rules">
+                    <NFormItem label="域名" path="domain">
+                        <NInput v-model:value="form.domain" type="textarea" placeholder="请输入域名，每行一个" />
+                    </NFormItem>
+                    <NFormItem label="私钥" path="privateKey">
+                        <NInput v-model:value="form.privateKey" type="textarea" placeholder="请输入证书私钥" />
+                    </NFormItem>
+                </NForm>
+            </NCard>
+            <NCard title="第三步：验证域名归属">
 
-                </NCard>
-                <NCard title="第四步：下载证书">
+            </NCard>
+            <NCard title="第四步：下载证书">
 
-                </NCard>
-            </NTabPane>
-        </NTabs>
-    </NConfigProvider>
+            </NCard>
+        </NTabPane>
+    </NTabs>
 </template>
 
 <!-- Style -->

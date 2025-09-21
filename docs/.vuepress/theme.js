@@ -30,6 +30,14 @@ export default hopeTheme(
             demo: true,         // 支持 demo
             plantuml: true,     // 支持 PlantUML
             codeTabs: true,     // 支持代码块分组
+            highlighter: {
+                type: "shiki",
+                theme: "vitesse-light",
+                darkTheme: "vitesse-dark",
+                aliases: {
+                    Caddyfile: "text",
+                },
+            },
         },
         plugins: {
             // 本地搜索
