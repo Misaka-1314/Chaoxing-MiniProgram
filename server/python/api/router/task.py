@@ -49,7 +49,8 @@ async def _(
     request: Request,
 ):
     _list = list_records()
-    _list.sort(key=lambda x: x["create_at"], reverse=True)
+    _list.sort(key=lambda x: x["id"], reverse=True)
+    now = int(time.time())
     return JSONResponse(
         content={
             "status": 0,
@@ -71,6 +72,7 @@ async def _(
                     if item["upload_at"]
                     else "",
                     "status": item["status"],
+                    "delta": now - item["upload_at"],
                 }
                 for item in _list
             ],
@@ -372,29 +374,28 @@ async def worker():
         _list1: list[dict] = list_records()
         # 过滤空数据
         _list2 = [x for x in _list1 if x]
-        # 过滤已完成更新的任务
+        # 获取代码更新时间
         _updatetime = await _get_updatetime()
+        # 过滤已完成更新（上传成功且上传时间大于代码更新时间）的任务
         _list3 = [
             x
             for x in _list2
             if not ("成功" in (x["status"] or "") and x["upload_at"] > _updatetime)
         ]
-        # 过滤失败频繁的任务
+        # 过滤失败频繁（48小时内失败过）的任务
         _list = [
             x
             for x in _list3
             if not (
                 "失败" in (x["status"] or "")
-                and x["upload_at"] + 3600 * 8 > time.time()
+                and x["upload_at"] + 3600 * 48 > time.time()
             )
         ]
         # 任务排序
         _list.sort(
             key=lambda x: (
-                "成功" not in (x["status"] or ""),
-                not x["upload_at"],
-                "失败" not in (x["status"] or ""),
-                x["upload_at"] or MIN_TIME,
+                not (x["upload_at"] and x["status"]),  # 1st优先：没有上传记录的
+                "成功" in (x["status"] or ""),  # 2nd优先：成功上传过的
             ),
             reverse=True,
         )
@@ -431,11 +432,11 @@ async def worker():
                     continue
 
         try:
-            await asyncio.wait_for(_upload_task(_list), timeout=len(_list) * 3 * 60)
+            await asyncio.wait_for(_upload_task(_list), timeout=3600)
         except asyncio.TimeoutError:
-            logging.info("任务处理超时")
-
-        logging.info("任务处理完成")
+            logging.info("任务处理超时，重新拉取任务")
+        else:
+            logging.info("任务处理完成")
 
     while True:
         try:
