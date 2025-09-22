@@ -7,13 +7,11 @@ from zoneinfo import ZoneInfo
 import datetime
 import asyncio
 import time
-import csv
 import os
 
 from utils.storage import (
     list_records,
     update_status,
-    update_all_status,
     update_record,
     insert_record,
     count_records,
@@ -73,7 +71,7 @@ async def _(
                     if item["upload_at"]
                     else "",
                     "status": item["status"],
-                    "delta": now - item["upload_at"],
+                    "delta": now - int(item["upload_at"] or MIN_TIME),
                 }
                 for item in _list
             ],
@@ -98,61 +96,6 @@ async def _(
         "status": 0,
         "msg": "已强制重置任务状态" if res else "不存在",
         "data": res,
-    }
-
-
-@router.get("/load", description="从文件导入数据")
-async def _(
-    request: Request,
-):
-    # curl --max-time 0 http://127.0.0.1:8000/api/task/load
-    if request.client.host != "127.0.0.1":
-        raise HTTPException(status_code=403, detail="暂不支持")
-
-    with open("data/load.csv", "r", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        _list = []
-        for row in reader:
-            item = {
-                "appid": row["AppID(小程序ID)"].strip(),
-                "secret": row["AppSecret(小程序密钥)"].strip(),
-                "key": row["小程序代码上传密钥"].strip(),
-                "mobile": row["手机号（学习通的）"].strip(),
-                "name": row["小程序名称"].strip(),
-                "create_at": datetime.datetime.strptime(
-                    row["提交时间"], r"%Y/%m/%d %H:%M"
-                ).timestamp(),
-            }
-            item["key"] = _handle_key(item)
-            if len(item["appid"]) != 18 or item["appid"][:2] != "wx":
-                continue
-            if not item["key"]:
-                continue
-            if not await _auth_check(item):
-                item["secret"] = ""
-            _list.append(item)
-        _list.sort(key=lambda x: x["create_at"])
-        for item in _list:
-            insert_record(**item)
-            time.sleep(0.1)
-    return {
-        "status": 0,
-        "msg": "操作成功!",
-    }
-
-
-@router.get("/force/all", description="强制重置任务状态")
-async def _(
-    request: Request,
-):
-    # curl --max-time 0 http://127.0.0.1:8000/api/task/force/all
-    if request.client.host != "127.0.0.1":
-        raise HTTPException(status_code=403, detail="暂不支持")
-
-    update_all_status(status="")
-    return {
-        "status": 0,
-        "msg": "已强制重置任务状态",
     }
 
 
@@ -413,6 +356,7 @@ async def worker():
                 x["appid"] in (WHITE_APPID or "").split(","),  # 1st优先：白名单
                 not (x["upload_at"] and x["status"]),  # 2nd优先：没有上传记录的
                 "成功" in (x["status"] or ""),  # 3rd优先：成功上传过的
+                x["upload_at"] or MIN_TIME,  # 4th优先：上传时间久远的
             ),
             reverse=True,
         )
@@ -449,7 +393,7 @@ async def worker():
                     continue
 
         try:
-            await asyncio.wait_for(_upload_task(_list), timeout=3600)
+            await asyncio.wait_for(_upload_task(_list), timeout=3 * 3600)
         except asyncio.TimeoutError:
             logging.info("任务处理超时，重新拉取任务")
         else:
