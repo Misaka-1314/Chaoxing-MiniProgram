@@ -16,9 +16,6 @@ const version = (datetimeStr) => {
     const yyyy = cnTime.getFullYear();
     const mm = String(cnTime.getMonth() + 1).padStart(2, "0");
     const dd = String(cnTime.getDate()).padStart(2, "0");
-    const hh = String(cnTime.getHours()).padStart(2, "0");
-    const min = String(cnTime.getMinutes()).padStart(2, "0");
-    const ss = String(cnTime.getSeconds()).padStart(2, "0");
     return `v3.${yyyy}.${mm}.${dd}`;
 }
 
