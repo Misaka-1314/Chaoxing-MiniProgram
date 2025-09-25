@@ -19,7 +19,7 @@ order: 10
 3. 设置小程序类目、主营类目 (推荐类目写在下面)
 4. 小程序备案 (免费，必须) + 小程序微信认证 (非企业30元/年，可选)
 5. 申请小程序开发接口 (需要 `wx.chooseLocation` 和 `wx.getLocation`，可去淘宝代开通)
-6. 设置小程序服务器域名 (需要已备案的域名用于反代官方服务器)
+6. 设置小程序服务器域名 (需要已备案的域名用于反代官方服务器) 或开调试模式使用
 
 推荐小程序类目
 
@@ -31,32 +31,50 @@ order: 10
 工具 > 信息查询
 ```
 
-服务器域名
-1. request 域名  
-    ```
-    https://api.map.baidu.com;
-    https://api.tianditu.gov.cn;
-    https://mooc1-api.chaoxing.com;
-    https://pan-yz.chaoxing.com;
-    https://passport2-api.chaoxing.com;
-    https://passport2.chaoxing.com;
-    https://sso.chaoxing.com;
-    https://mobilewx.chaoxing.com;
-    https://mobilelearn.chaoxing.com;
-    https://proxy.yangrucheng.top;
-    https://x.chaoxing.com;
-    https://i.chaoxing.com;
-    https://im.chaoxing.com;
-    https://cx.example.com // 更换为你的反代域名 
-    ``` 
-2. uploadFile 域名  
-    ```
-    https://pan-yz.chaoxing.com  
-    ```
-3. downloadFile 域名  
-    ```
-    https://pan-yz.chaoxing.com  
-    ```
+:::tabs#mode
+
+@tab 开启调试模式使用
+
+1. 点击小程序右上角三个点
+2. 下方滑到最右边，点击 “开发调试” 开启调试模式。
+
+@tab 设置小程序服务器域名
+
+#### request 域名  
+
+```
+https://a1-vip6.easemob.com;
+https://rs.easemob.com;
+https://api.map.baidu.com;
+https://api.tianditu.gov.cn;
+https://api.vore.top;
+https://hmma.baidu.com;
+https://mooc1-api.chaoxing.com;
+https://pan-yz.chaoxing.com;
+https://passport2-api.chaoxing.com;
+https://passport2.chaoxing.com;
+https://sso.chaoxing.com;
+https://x.chaoxing.com;
+https://i.chaoxing.com;
+https://im.chaoxing.com;
+https://kdxg.tust.edu.cn;
+https://data-reporting.agora.io;
+https://cx.micono.eu.org; // 更换为你的反代域名 
+``` 
+
+#### uploadFile 域名  
+
+```
+https://pan-yz.chaoxing.com  
+```
+
+#### downloadFile 域名  
+
+```
+https://pan-yz.chaoxing.com  
+```
+
+:::
 
 ## 上传小程序代码
 
