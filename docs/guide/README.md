@@ -44,6 +44,8 @@ order: 0
 
 App 版仍在测试中，签到码、手势、自动定位、已签人数、借用照片功能均不可用！
 
+小程序版未被全部封禁前，App 版仅留作备用，不受理相关问题。
+
 <ClientOnly>
     <GitHubRelease />
 </ClientOnly>
