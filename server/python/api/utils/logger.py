@@ -12,6 +12,7 @@ class FilterInvalidHttpRequest(logging.Filter):
             for kw in [
                 "Invalid HTTP request received.",
                 "HTTP/2.0",
+                "apple",
             ]
         )
 

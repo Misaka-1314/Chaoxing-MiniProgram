@@ -456,7 +456,7 @@
                     console.info("登录", res)
                     if (!res.status)
                         throw new Error(res.mes || '登录失败，请检查账号密码');
-                    return fetch(`/api/courses`, {
+                    return fetch(`/api/courses?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, {
                         credentials: 'include'
                     });
                 })
