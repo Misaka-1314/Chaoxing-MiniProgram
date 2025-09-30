@@ -43,11 +43,8 @@ order: 10
 #### request 域名  
 
 ```
-https://a1-vip6.easemob.com;
-https://rs.easemob.com;
 https://api.map.baidu.com;
 https://api.tianditu.gov.cn;
-https://api.vore.top;
 https://hmma.baidu.com;
 https://mooc1-api.chaoxing.com;
 https://pan-yz.chaoxing.com;
@@ -57,7 +54,6 @@ https://sso.chaoxing.com;
 https://x.chaoxing.com;
 https://i.chaoxing.com;
 https://im.chaoxing.com;
-https://kdxg.tust.edu.cn;
 https://data-reporting.agora.io;
 https://cx.micono.eu.org; // 更换为你的反代域名 
 ``` 
