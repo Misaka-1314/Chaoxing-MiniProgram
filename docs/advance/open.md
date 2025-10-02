@@ -51,10 +51,6 @@ https://pan-yz.chaoxing.com;
 https://passport2-api.chaoxing.com;
 https://passport2.chaoxing.com;
 https://sso.chaoxing.com;
-https://x.chaoxing.com;
-https://i.chaoxing.com;
-https://im.chaoxing.com;
-https://data-reporting.agora.io;
 https://cx.micono.eu.org; // 更换为你的反代域名 
 ``` 
 

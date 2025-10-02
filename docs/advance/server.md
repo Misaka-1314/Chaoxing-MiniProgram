@@ -16,7 +16,7 @@ order: 25
 
 ## 使用 CDN 或边缘函数反代
 
-### 使用 Cloudflare Worker 反代
+### 使用 Cloudflare Worker
 
 把下面的反向代理脚本粘贴到 Workers 编辑器中。
 
@@ -41,7 +41,7 @@ order: 25
 
 ### Caddy 配置文件示例
 
-```Caddyfile
+```
 example.com {
     handle_path /proxy/* {
         reverse_proxy "https://mobilelearn.chaoxing.com" {
@@ -55,7 +55,7 @@ example.com {
 }
 ```
 
-```Caddyfile
+```
 http://192.168.x.x:8080 {
     handle_path /proxy/* {
         reverse_proxy "https://mobilelearn.chaoxing.com" {
