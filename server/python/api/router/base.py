@@ -71,17 +71,19 @@ async def _(
     request: Request,
 ):
     resp = await client.get(
-        url="https://mooc1-api.chaoxing.com/mycourse/backclazzdata",
+        url="https://proxy.yangrucheng.top/mooc1-api.chaoxing.com/mycourse/backclazzdata",
         params={
             "view": "json",
             "rss": "1",
+            "proxy-area": "cn",
         },
         cookies=dict(request.cookies),
     )
-    return JSONResponse(
-        content=resp.json(),
+    return Response(
+        content=resp.text,
         headers={
             "Cache-Control": "private, max-age=300",
+            "Content-Type": "application/json; charset=utf-8",
         },
     )
 
