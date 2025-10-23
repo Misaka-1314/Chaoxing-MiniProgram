@@ -1,6 +1,6 @@
 ---
-title: 开源版
-icon: iconfont icon-study
+title: 搭建教程
+icon: iconfont icon-state
 category:
   - Advance
 tag:
@@ -8,9 +8,8 @@ tag:
 order: 10
 ---
 
-> 本开源小程序部署教程仅供有小程序开发基础的人阅读，不提供任何形式的指导！
-
-[非开源版部署教程](./no-open.html)
+> 您正在阅读开源版小程序部署教程！
+> 本教程为有小程序开发经验的用户准备，不会提供指导。
 
 ## 前置步骤
 

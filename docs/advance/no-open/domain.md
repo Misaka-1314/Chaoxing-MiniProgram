@@ -1,7 +1,7 @@
 ---
 title: 非开源版配置域名
 index: false
-icon: iconfont icon-study
+icon: iconfont icon-state
 category:
   - Advance
 tag:
@@ -101,4 +101,4 @@ https://api.map.baidu.com;
 
 :::
 
-广告及轮播图相关内容，请阅读 [广告教程](./ad.md)
+广告及轮播图相关内容，请阅读 [广告教程](./ad-setting.md)

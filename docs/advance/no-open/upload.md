@@ -1,6 +1,6 @@
 ---
 title: 自动上传代码
-icon: iconfont icon-study
+icon: iconfont icon-state
 category:
   - Advance
 tag:
@@ -16,10 +16,4 @@ order: 16
     <InsertMiniprogram />
 </ClientOnly>
 
-:::tip
-上传进度可能存在延迟，请耐心等待！
-:::
-
-<ClientOnly>
-    <UploadTable />
-</ClientOnly>
+[去查看上传结果](./upload-result.md)

@@ -1,6 +1,6 @@
 ---
-title: 非开源版
-icon: iconfont icon-study
+title: 搭建教程（推荐）
+icon: iconfont icon-state
 category:
   - Advance
 tag:
@@ -47,17 +47,17 @@ order: 11
 
 ## 二、填问卷自动上传小程序代码
 
-[点击前往填写表格](./upload.md) 请务必在电脑端打开，手机粘贴有问题！
+完成小程序注册流程后，[点击前往填写表格](./upload.md) （请务必在电脑端打开，手机粘贴有问题！）
 
 <img src="/image/guide/问卷填写.png" style="width: min(60vw, 600px)" />
 
-[点击查看上传结果](./upload.md) 数据有 20s 延迟。
+[点击查看上传结果](./upload-result.md)
 
 ## 三、使用小程序
 
 + 务必打开开发调试（点击小程序右上角三点，右下角划到最右边）。
 
-不会用？看视频教程吧！[前往视频教程](../guide/tutorial.md#视频教程)
+不会用？看视频教程吧！[前往视频教程](../../guide/tutorial.md#视频教程)
 
 ## 四、后置步骤
 

@@ -1,6 +1,6 @@
 ---
 title: 版本升级
-icon: iconfont icon-study
+icon: iconfont icon-state
 category:
   - Advance
 tag:

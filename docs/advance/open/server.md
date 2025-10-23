@@ -1,6 +1,6 @@
 ---
 title: 反代服务器
-icon: iconfont icon-study
+icon: iconfont icon-state
 category:
   - Advance
 tag:
@@ -121,20 +121,19 @@ server {
 ```python
 from fastapi import FastAPI, Request, Response
 from urllib.parse import urljoin
+import uvicorn
+import httpx
 
 app = FastAPI(redoc_url=None, docs_url=None)
-
 ORIGIN_URL = "https://mobilelearn.chaoxing.com"
 
 @app.get("/{path:path}")
-async def proxy(
-    request: Request,
-):
-    path = request.url.path.replace("/proxy", "")
+async def proxy(request: Request, path: str):
+    real_path = path.replace("/proxy", "")
     # 这里应该加入校验 path 和 cookies，防止恶意请求
     async with httpx.AsyncClient(http2=True, timeout=10) as client:
         resp = await client.get(
-            url=urljoin(ORIGIN_URL, path),
+            url=urljoin(ORIGIN_URL, real_path),
             params=request.query_params,
             cookies=dict(request.cookies),
         )
@@ -142,4 +141,25 @@ async def proxy(
         content=resp.content,
         status_code=resp.status_code,
     )
+
+if __name__ == "__main__":
+    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)
+```
+
+```python
+from aiohttp import web, ClientSession
+from urllib.parse import urljoin
+
+ORIGIN = "https://mobilelearn.chaoxing.com"
+
+async def proxy(req):
+    path = req.match_info["path"]
+    url = urljoin(ORIGIN, path)
+    async with ClientSession() as s, s.get(url, params=req.query, cookies=req.cookies) as r:
+        return web.Response(body=await r.read(), status=r.status, headers=r.headers, content_type=r.headers.get("Content-Type"))
+
+app = web.Application()
+app.router.add_get("/proxy/{path:.*}", proxy)
+
+web.run_app(app, port=8000)
 ```
