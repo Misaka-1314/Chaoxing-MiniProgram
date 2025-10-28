@@ -42,7 +42,7 @@ app.include_router(task_router, prefix="/api/task", tags=["Task"])
 
 
 @app.get("/")
-async def root() -> RedirectResponse:
+async def root():
     with open("assets/home.html", "r", encoding="utf-8") as f:
         return HTMLResponse(
             content=f.read(),
@@ -55,7 +55,7 @@ async def root() -> RedirectResponse:
 
 
 @app.get("/deviceCode")
-async def deviceCode() -> RedirectResponse:
+async def deviceCode():
     with open("assets/deviceCode.html", "r", encoding="utf-8") as f:
         return HTMLResponse(
             content=f.read(),

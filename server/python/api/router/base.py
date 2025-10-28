@@ -17,13 +17,15 @@ cookies: Dict[int, httpx.Cookies] = {}
 async def _(
     request: Request,
 ) -> Response:
-    return {
-        "status": 0,
-        "msg": "ok",
-        "data": {
-            "ip": request.client.host,
-        },
-    }
+    return JSONResponse(
+        content={
+            "status": 0,
+            "msg": "ok",
+            "data": {
+                "ip": request.client.host,  # type: ignore
+            },
+        }
+    )
 
 
 @router.get("/login")
@@ -143,6 +145,8 @@ async def _(
     return JSONResponse(
         content=res,
         headers={
-            "Cache-Control": "private, max-age=3600",
+            "Cache-Control": "private, max-age={expires_in}".format(
+                expires_in=res.get("expires_in", 3600) - 300,
+            ),
         },
     )

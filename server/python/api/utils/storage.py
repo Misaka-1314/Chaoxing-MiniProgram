@@ -34,8 +34,8 @@ def insert_record(
     mobile: str,
     name: str,
     create_at: float = time.time(),
-    upload_at: float = None,
-    status: str = None,
+    upload_at: Optional[float] = None,
+    status: Optional[str] = None,
 ):
     """插入小程序信息，重复则更新"""
     assert len(appid) == 18 and appid.startswith("wx"), "AppID 格式错误"
@@ -111,7 +111,7 @@ def update_record(
 
 def update_status(
     status: str,
-    upload_at: float = time.time(),
+    upload_at: Optional[float] = time.time(),
     id: Optional[int] = None,
     appid: Optional[str] = None,
     **kwargs: Any,

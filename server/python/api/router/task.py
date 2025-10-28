@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from zoneinfo import ZoneInfo
 import datetime
 import asyncio
+import httpx
 import time
 import os
 
@@ -19,11 +20,11 @@ from utils.storage import (
 from utils.logger import logging
 from const import client
 
-UPLOAD_HOST = os.getenv("UPLOAD_HOST")
-CALLBACK_SERVER = os.getenv("CALLBACK_SERVER")
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
-GITHUB_REPO = os.getenv("GITHUB_REPO")
-WHITE_APPID = os.getenv("WHITE_APPID")
+UPLOAD_HOST = os.getenv("UPLOAD_HOST", "")
+CALLBACK_SERVER = os.getenv("CALLBACK_SERVER", "")
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "")
+GITHUB_REPO = os.getenv("GITHUB_REPO", "")
+WHITE_APPID = os.getenv("WHITE_APPID", "")
 MIN_TIME = 946656000
 
 router = APIRouter()
@@ -36,7 +37,7 @@ async def _(
     return {
         "status": 0,
         "data": {
-            "ip": request.client.host,
+            "ip": request.client.host,  # type: ignore
             "time": int(time.time()),
             **count_records(),
         },
@@ -77,7 +78,7 @@ async def _(
             ],
         },
         headers={
-            "Cache-Control": "max-age=15, public",
+            "Cache-Control": "public, max-age=15, immutable",
         },
     )
 
@@ -90,7 +91,7 @@ async def _(
     res = update_status(
         id=id,
         status="",
-        upload_at="",
+        upload_at=None,
     )
     return {
         "status": 0,
@@ -248,7 +249,17 @@ async def _upload(item: dict, task_length: int):
                 data=body,
             )
             res: dict = resp.json()
-        except Exception:
+        except (
+            httpx.ConnectError,
+            httpx.ReadTimeout,
+            httpx.WriteTimeout,
+            httpx.RemoteProtocolError,
+        ):
+            continue
+        except Exception as e:
+            logging.warning(
+                f"上传请求失败 {item['appid']} {e.__class__.__name__}", exc_info=True
+            )
             continue
         else:
             if res["appid"] != item["appid"]:
@@ -353,10 +364,11 @@ async def worker():
         # 任务排序
         _list.sort(
             key=lambda x: (
-                x["appid"] in (WHITE_APPID or "").split(","),  # 1st优先：白名单
-                not (x["upload_at"] and x["status"]),  # 2nd优先：没有上传记录的
-                "成功" in (x["status"] or ""),  # 3rd优先：成功上传过的
-                x["upload_at"] or MIN_TIME,  # 4th优先：上传时间久远的
+                x["status"] in ["上传中"],  # 1st优先：上传中的
+                x["appid"] in (WHITE_APPID or "").split(","),  # 2nd优先：白名单
+                not (x["upload_at"] and x["status"]),  # 3rd优先：没有上传记录的
+                "成功" in (x["status"] or ""),  # 4th优先：成功上传过的
+                x["upload_at"] or MIN_TIME,  # 5th优先：上传时间久远的
             ),
             reverse=True,
         )
@@ -405,6 +417,4 @@ async def worker():
         except Exception as e:
             logging.warning(f"任务处理异常 {e} {e.__class__.__name__}", exc_info=True)
         else:
-            await asyncio.sleep(3600)
-        finally:
             await asyncio.sleep(30)
