@@ -46,7 +46,7 @@ const filteredList = computed(() => {
         .map(item => ({
             ...item,
             "secret": item.secret ? "已配置" : "未配置",
-            "style-class": (item.status || "").includes('失败') ? 'item-fail' : '',
+            "style-class": (item.status || "").includes('失败') || !item.secret ? 'item-fail' : '',
             "button": (() => {
                 if (!item.status || item.status == "上传中")
                     return null;
