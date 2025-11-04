@@ -1,3 +1,30 @@
 {
-    "headers": []
+    "name": "misaka-docs",
+    "headers": [
+        {
+            "source": "/*",
+            "headers": [
+                {
+                    "key": "X-Server",
+                    "value": "Misaka EdgeServer"
+                }
+            ]
+        }
+    ],
+    "installCommand": "npm i -D",
+    "buildCommand": "npm run docs:build",
+    "outputDirectory": "./.vuepress/dist",
+    "nodeVersion": "22.17.1",
+    "redirects": [
+        {
+            "source": "/advance/upload.html",
+            "destination": "/advance/no-open/upload.html",
+            "statusCode": 301
+        },
+        {
+            "source": "/advance/no-open.html",
+            "destination": "/advance/no-open/develop.html",
+            "statusCode": 301
+        }
+    ]
 }
