@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         微信小程序设置最低版本
 // @namespace    https://mp.weixin.qq.com/
-// @version      1.0.0
+// @version      1.0.1
 // @author       Misaka
 // @match        https://mp.weixin.qq.com/wxamp/*
 // @grant        none
@@ -58,26 +58,35 @@
             1000
         );
 
-        fetch(
-            `https://mp.weixin.qq.com/wxamp/cgi/config/basicConfig?token=${token}&lang=zh_CN&random=${random}`
-        )
+        fetch(`https://mp.weixin.qq.com/wxamp/cgi/route?path=${encodeURIComponent('/wxopen/wasysnotify?action=update&all=1')}&token=${token}&lang=zh_CN&random=${random}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Accept": "application/json, text/plain, */*",
+            },
+        })
+            .then((response) => response.json())
+            .then(() => {
+                console.info("通知已读成功~♡");
+            });
+
+        fetch(`https://mp.weixin.qq.com/wxamp/cgi/config/basicConfig?token=${token}&lang=zh_CN&random=${random}`)
             .then((response) => response.json())
             .then((result) => {
                 const historyList = result.historyList || [];
                 if (!historyList.length) return;
                 const version = historyList[0]?.version;
                 return fetch(
-                    `https://mp.weixin.qq.com/wxamp/cgi/setting/modifyMinWxaVersion?token=${token}&lang=zh_CN&random=${random}`,
-                    {
-                        method: "POST",
-                        body: toFormData({
-                            version: version,
-                        }),
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded",
-                            "Accept": "application/json, text/plain, */*",
-                        },
-                    }
+                    `https://mp.weixin.qq.com/wxamp/cgi/setting/modifyMinWxaVersion?token=${token}&lang=zh_CN&random=${random}`, {
+                    method: "POST",
+                    body: toFormData({
+                        version: version,
+                    }),
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "Accept": "application/json, text/plain, */*",
+                    },
+                }
                 );
             })
             .then((response) => response.json())
