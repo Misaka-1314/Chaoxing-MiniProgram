@@ -14,7 +14,7 @@ order: 25
 >
 > 自用无需备案，体验版开启调试模式即可
 
-## 使用 CDN 或边缘函数反代
+## 使用 边缘函数反代
 
 ### 使用 Cloudflare Worker
 
@@ -29,13 +29,13 @@ order: 25
 如果部署有问题，请自行复制代码粘贴到 Cloudflare Workers！[去复制代码](https://github.com/Misaka-1314/Chaoxing-MiniProgram/blob/main/server/cloudflare/_worker.js)
 :::
 
+### 使用腾讯云 EdgeOne Pages
+
+[![使用 腾讯云 EdgeOne Pages 部署](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://edgeone.ai/pages/new?repository-url=https%3a%2f%2fgithub.com%2fMisaka-1314%2fChaoxing-MiniProgram%2ftree%2fmain%2fserver%2fedgeone&project-name=cx-proxy&repository-name=cx-proxy)
+
 ### 使用腾讯云 EdgeOne 边缘函数
 
-[![使用 腾讯云 EdgeOne 边缘函数部署](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://edgeone.ai/pages/new?repository-url=https%3a%2f%2fgithub.com%2fMisaka-1314%2fChaoxing-MiniProgram%2ftree%2fmain%2fserver%2fedgeone&project-name=cx-proxy&repository-name=cx-proxy)
-
-### 使用腾讯云 EdgeOne 站点加速
-
-<img src="/image/guide/EO加速.png" style="width: min(60vw, 480px)" />
+请自行复制代码粘贴到 EdgeOne 边缘函数！[去复制代码](https://github.com/Misaka-1314/Chaoxing-MiniProgram/blob/main/server/edgeone/_worker.js)
 
 ## 自建反代服务器
 
