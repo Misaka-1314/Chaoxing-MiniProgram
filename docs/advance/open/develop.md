@@ -69,11 +69,11 @@ https://pan-yz.chaoxing.com
 
 ## 上传小程序代码
 
-1. 注册 [百度地图开放平台](https://lbsyun.baidu.com) 和 [天地图开放平台](http://lbs.tianditu.gov.cn) 的密钥
+1. 注册 [百度地图开放平台](https://lbsyun.baidu.com) 和 [天地图开放平台](http://lbs.tianditu.gov.cn) 的密钥（免费）
 2. 在 `miniprogram/utils` 目录下创建 `config.js` 并填入下面的内容。
     ```js
     const config = {
-        baseUrl: "https://cx.micono.eu.org/edge/proxy", // 公益反代服务器（腾讯 EdgeOne），有条件请更换为你的反代域名
+        baseUrl: "https://example.com/proxy",
         repository: "Misaka-1314/Chaoxing-WechatMiniProgram", // 开源仓库地址
 
         baiduMapKey: '', // 百度地图开发平台

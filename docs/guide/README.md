@@ -43,10 +43,6 @@ order: 0
 
 [网页入口](https://cx.micono.eu.org) 也是进入小程序，所以不推荐。
 
-@tab App 版
-
-App 版已经下线，停止服务。
-
 :::
 
 ### 备用小程序
@@ -86,9 +82,5 @@ Misaka 会定期检查确保小程序未经篡改，如你发现异常，请及�
 + [小鸟游六花也要谈恋爱](weixin://dl/business/?appid=wxb42fe32e6e071916&path=pages/share/share&query=path%3D%2Fpackages%2Fsign-package%2Fpages%2Fhome%2Fhome%26appid%3Dwx04a5dc776b4461db)
 + [西柚学习助手](weixin://dl/business/?appid=wxb42fe32e6e071916&path=pages/share/share&query=path%3D%2Fpackages%2Fsign-package%2Fpages%2Fhome%2Fhome%26appid%3Dwxb76f7f625b599619)
 + [哈轩云 HXuan](weixin://dl/business/?appid=wxb42fe32e6e071916&path=pages/share/share&query=path%3D%2Fpackages%2Fsign-package%2Fpages%2Fhome%2Fhome%26appid%3Dwx0beeef707e618f43)
-+ [KJXTEC](weixin://dl/business/?appid=wxb42fe32e6e071916&path=pages/share/share&query=path%3D%2Fpackages%2Fsign-package%2Fpages%2Fhome%2Fhome%26appid%3Dwxb70e8cfee5b42ac7)
-+ [学物止境](weixin://dl/business/?appid=wxb42fe32e6e071916&path=pages/share/share&query=path%3D%2Fpackages%2Fsign-package%2Fpages%2Fhome%2Fhome%26appid%3Dwx59679dc85a3d70a8)
-+ [科宝工具箱](weixin://dl/business/?appid=wxb42fe32e6e071916&path=pages/share/share&query=path%3D%2Fpackages%2Fsign-package%2Fpages%2Fhome%2Fhome%26appid%3Dwx6a561c49a7163312)
-+ [民大牧羊人](weixin://dl/business/?appid=wxb42fe32e6e071916&path=pages/share/share&query=path%3D%2Fpackages%2Fsign-package%2Fpages%2Fhome%2Fhome%26appid%3Dwx939bc528b81729a0)
 
 :::
