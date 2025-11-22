@@ -9,6 +9,12 @@
 
 </div></center>
 
+<center><div align="center">
+
+<img alt="status" src="https://uptime.betterstack.com/status-badges/v1/monitor/29xsn.svg"/></img>
+
+</div></center>
+
 <div align="center" style="font-weight:bold"><b>学习通快捷签到 自建微信小程序，签到如此简单！<a href="https://doc.micono.eu.org">阅读文档</a></b></div>  
 
 ## ✨ 历程
@@ -19,84 +25,118 @@
 + 2024/09 基于本项目的小程序被举报封号，我们启动了自建小程序方案，鼓励用户注册小程序自用。
 + 2024/09 学习通官方以内容侵权为由投诉多个公众号的文章。
 + 2024/10 我们计划重启开源版本。
-+ 2024/12 截至 2025年4月30日的 [小程序上传数据](https://doc.micono.eu.org/advance/upload.html)，已有934个小程序成功上传，另有部分用户填写有误。有需要的同学可以填写问卷！
-+ 2025/06 借助腾讯云 CDN 的自定义回源规则，可以无需服务器转发。
++ 2024/12 截至 2025年11月22日的 [小程序上传数据](https://doc.micono.eu.org/advance/no-open/upload-result.html)，已有1228个小程序成功上传，另有部分用户填写错误。有需要的同学可以填写问卷！
++ 2025/06 借助云边缘函数与 Cloudflare Worker，可以无需服务器转发请求，但此方案成本过高。
++ 2025/11 学习通加强了流控策略，大量用户收到 [LT1]操作失败 限流响应，我们在第一时间增加了代理IP数量。
++ 2025/11 经过我们的测试发现，部分教育网的流控策略较为宽松，甚至 500 QPS 仍未监测到限流异常，我们开始策划 [边缘代理](https://github.com/Misaka-1314/Chaoxing-EdgeProxy) 方案。
++ 2025/11 2025年11月17日上午10点59分，我们监控到学习通部分服务开始故障，随后所有服务崩溃，下午2点逐步恢复。学习通声称是运营商光缆故障，但我们认为与限流代码有关。
++ NOW 我们不再维护开源版，仅持续维护非开源版，因为我们依靠非开源版中的广告获得收益。
 
 ## 🎃 免责声明
 
 本项目仅作为交流学习使用，通过本项目加深网络通信、接口编写、交互设计等方面知识的理解。
 任何人或组织使用项目中代码进行的任何违法行为与本人无关。如有触及相关平台规定或者权益，烦请联系 [邮箱](mailto:complaint@micono.eu.org) 改正。
 
-> 2022年2月11日，教育部等五部门关于加强普通高校在线客服课程教学管理的若干意见要求，严禁以任何形式传播考试内容及答案作弊手法。本项目不提供考试或作业答案！
-
-> 本项目默认您有基本的 JavaSript、Python 基础，能熟练部署服务器软件，部署交流请到 QQ频道，过于简单的问题可能被直接关闭！
+> 2022年2月11日，教育部等五部门关于加强普通高校在线客服课程教学管理的若干意见要求，严禁以任何形式传播考试内容及答案作弊手法。因此本项目不提供任何考试或作业答案！
 
 ## 🎉 版本对比
 
-<table style="text-align: center">
+<table style="text-align: center" align="center">
     <tr>
-        <th colspan=2>版本对比</th>
+        <th colspan="2">版本对比</th>
         <th>开源版</th>
-        <th>非开源版</th>
+        <th>
+            <div>非开源版</div>
+            <div>（普通用户）</div>
+        </th>
+        <th>
+            <div>非开源版</div>
+            <div>（会员用户）</div>
+        </th>
     </tr>
     <tr>
-        <td rowspan=5>签到功能</td>
+        <td rowspan="7">签到功能</td>
         <td>位置签到</td>
-        <td>支持地图自选位置</td>
-        <td>支持自动获取教师设置的位置</td>
+        <td>地图自选位置</td>
+        <td>地图自选位置</td>
+        <td>一键获取教师设置的位置</td>
     </tr>
     <tr>
         <td>拍照签到</td>
-        <td>支持上传任意图片</td>
-        <td>支持借用同学签到照片</td>
+        <td>上传任意图片</td>
+        <td>上传任意图片</td>
+        <td>一键借用同学签到照片</td>
     </tr>
     <tr>
         <td>手势签到</td>
-        <td>手动</td>
-        <td>支持一键获取手势</td>
+        <td>可自行输入手势</td>
+        <td>无需手势签到</td>
+        <td>一键查看手势</td>
     </tr>
     <tr>
         <td>签到码签到</td>
-        <td>手动输入</td>
-        <td>支持一键获取签到码</td>
+        <td>可自行输入签到码</td>
+        <td>无需签到码签到</td>
+        <td>一键查看签到码</td>
     </tr>
     <tr>
         <td>二维码签到</td>
-        <td>不支持绕过二维码，但可以解决单台手机只能签一人</td>
-        <td>支持扫一次签多用户</td>
+        <td>不支持绕过二维码，但可解决单手机签一人</td>
+        <td>不支持绕过二维码</td>
+        <td>不支持绕过二维码，但扫一次可签多用户</td>
     </tr>
     <tr>
-        <td rowspan=2>其他差异</td>
+        <td>群聊签到</td>
+        <td>不支持</td>
+        <td colspan="2">支持</td>
+    </tr>
+    <tr>
+        <td>应用中心签到</td>
+        <td>不支持</td>
+        <td colspan="2">支持签到，但看不到签到结果</td>
+    </tr>
+    <tr>
+        <td rowspan="2">其他差异</td>
         <td>滑块验证码</td>
         <td><a href="https://github.com/Misaka-1314/Chaoxing-MiniProgram/blob/39c95d5b4a20ce4e8b4f8e3ed7bd038cc15b4490/miniprogram/pages/home/home.js#L165">可接入免费接口</a></td>
+        <td>支持自动通过</td>
         <td>支持自动通过</td>
     </tr>
     <tr>
         <td>多用户</td>
         <td>不支持</td>
-        <td>支持</td>
+        <td>可登录多账号，随时切换</td>
+        <td>可一键为多账号签到</td>
     </tr>
     <tr>
-        <td colspan=2>使用方式 / 用户协议</td>
+        <td colspan="2">使用方式 / 用户协议</td>
         <td><a href="https://github.com/Misaka-1314/Chaoxing-MiniProgram/blob/main/LICENSE">GPLv3许可证</a></td>
-        <td>原则上仅供您和您的朋友使用，禁止倒卖、滥用！</td>
+        <td colspan="2">原则上仅供您和朋友使用，禁止倒卖/滥用</td>
     </tr>
     <tr>
-        <td rowspan=2>部署教程</td>
+        <td rowspan="2">部署教程</td>
         <td>服务端</td>
-        <td><a href="https://doc.micono.eu.org/advance/server.html">自行部署教程</a></td>
-        <td>默认使用我们的服务器 (<a href="https://doc.micono.eu.org/advance/server.html">可自行部署</a>)</td>
+        <td><a href="https://doc.micono.eu.org/advance/open/server.html">自行部署教程</a></td>
+        <td colspan="2">使用项目开发者的服务器</td>
     </tr>
     <tr>
         <td>小程序端</td>
-        <td><a href="https://doc.micono.eu.org/advance/miniprogram.html">自行部署教程</a></td>
-        <td>填写问卷，提供小程序代码上传密钥 (<a href="https://doc.micono.eu.org/advance/no-open.html">填写教程</a>)</td>
+        <td><a href="https://doc.micono.eu.org/advance/open/develop.html">自行部署教程</a></td>
+        <td colspan="2">填写问卷并提供上传密钥</td>
+    </tr>
+    <tr>
+        <td colspan="2">价格</td>
+        <td>免费</td>
+        <td>免费</td>
+        <td>
+            <div>免费</div>
+            <div>（仅支持通过激励广告获取）</div>
+        </td>
     </tr>
 </table>
 
-> 请注意：GPLv3 具有“传染性”，即在您开发的软件中使用 GPLv3 自由软件的整体或部分，都将使您的软件也变成 GPLv3 自由软件。
 
-> 无论选择哪种版本，部署及使用过程均未收取任何费用，如果您遭到欺骗，请立即申请退款！
+> 请注意：GPLv3 具有“传染性”，即在您开发的软件中使用 GPLv3 自由软件的整体或部分，都将使您的软件也变成 GPLv3 自由软件。
 
 ## 🗒️ 页面展示
 
@@ -116,25 +156,14 @@
 | :----------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------: |
 | <div align="center"> <img src="https://github.com/user-attachments/assets/b3bbd3b8-d359-4c2a-be7d-aa3bce4c47f9"/> </div> | <div align="center"> <img src="https://github.com/user-attachments/assets/e2539952-d160-48ab-a99b-1e70234f16b6"/> </div> | <div align="center"> <img src="https://github.com/user-attachments/assets/63f9c939-7334-4c0b-8efd-d7a3db6d09cf"/> </div> | <div align="center"> <img src="https://github.com/user-attachments/assets/6807e267-10bd-49c0-9ea7-69b778ab5556"/> </div> |
 
-#### 网页入口
-
-> 为了防止小程序被封，我们隐藏了体验小程序的入口，使用网页跳转进入（这部分代码在 [这里](https://github.com/misaka-1314/Chaoxing-MiniProgram/blob/main/web/README.md)）  
-> 请注意：这不是网页版签到，只是小程序入口！  
-
-|                                                        **登录页**                                                        |                                                      **课程列表页**                                                      |
-| :----------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------: |
-| <div align="center"> <img src="https://github.com/user-attachments/assets/25e6c246-3241-4b06-9a44-a9b8f5199f38"/> </div> | <div align="center"> <img src="https://github.com/user-attachments/assets/38596dfc-6212-45d2-b46c-a4aa11cdc241"/> </div> |
-
-<div align="center" style="font-weight:bold">扫码体验非开源版</div>  
-<img src="https://cdn.micono.eu.org/image/小程序码/签到小程序.png" width="250" height="250" style="border-radius: 50%"></img>
-
 ## 🎗️ 交流学习
 
 [加入用户交流群](https://doc.micono.eu.org/guide/)
 
 > 我们依靠非开源版中的广告获得收益，未来可能提供更多增值服务。但已有的免费签到渠道永远不会关闭！
 
+> 无论选择哪种版本，部署及使用过程均未收取任何费用，如果您遭到欺骗，请立即申请退款！
+
 ## 🏆 特别鸣谢
 
-+ 本项目的小程序上传服务器 由 [萝莉猫 IDC](https://www.loricat.cn) 公益赞助！
 + 本项目的 CDN 加速和安全保护由 [腾讯 EdgeOne](https://edgeone.ai/?from=github) 赞助！
