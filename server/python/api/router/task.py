@@ -203,8 +203,8 @@ async def _get_updatetime() -> int:
             res: dict = resp.json()
             version: str = res["data"]["version"]
             logging.info(f"获取代码版本号 {version}")
-        except Exception as e:
-            logging.warning(f"获取版本号失败 {e} {e.__class__.__name__}", exc_info=True)
+        except httpx.RequestError as e:
+            logging.warning(f"获取版本号失败 {e} {e.__class__.__name__}")
             await asyncio.sleep(5)
         else:
             parts = version.split(".")
@@ -249,12 +249,7 @@ async def _upload(item: dict, task_length: int):
                 data=body,
             )
             res: dict = resp.json()
-        except (
-            httpx.ConnectError,
-            httpx.ReadTimeout,
-            httpx.WriteTimeout,
-            httpx.RemoteProtocolError,
-        ):
+        except httpx.RequestError:
             continue
         except Exception as e:
             logging.warning(
