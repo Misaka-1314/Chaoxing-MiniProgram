@@ -1,6 +1,0 @@
-pycryptodome
-httpx[http2]
-fastapi
-uvicorn
-numpy
-uuid
