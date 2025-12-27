@@ -1,13 +1,22 @@
-# 自动上传代码
+<script setup>
+import UploadForm from '../../.vitepress/components/UploadForm.vue';
+import UploadResult from '../../.vitepress/components/UploadResult.vue';
+</script>
+
+# 代码上传结果
 
 :::tip
-正确填写表单并提交后，可在下方查看上传进度！
+新创建的小程序，需要30秒同步到此表，上传需要至多24小时。
 :::
 
-<!-- <ClientOnly>
-    <InsertMiniprogram />
-</ClientOnly> -->
+<ClientOnly>
+    <UploadResult />
+</ClientOnly>
 
-2025/12/17 代码上传服务器暂时维护，预计5天内恢复！
+::: details 我也要上传小程序代码
 
-[去查看上传结果](./upload-result.md)
+请勿使用手机、平板填写，文档站未适配。
+<ClientOnly>
+    <UploadForm />
+</ClientOnly>
+:::

@@ -1,6 +1,7 @@
 <script setup>
 import ImageUpload from '../.vitepress/components/ImageUpload.vue'
 </script>
+
 # 超星图床
 
 :::tip

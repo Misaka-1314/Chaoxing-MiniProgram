@@ -109,7 +109,7 @@ const copy = text => navigator.clipboard.writeText(text)
         <div class="image-wrapper" v-if="imageInfo.previewUrl">
             <img referrerpolicy="no-referrer" :src="imageInfo.previewUrl" class="image">
         </div>
-        <NCode v-if="imageInfo.code" :code="imageInfo.code" />
+        <NCode v-if="imageInfo.code" :code="imageInfo.code" word-wrap />
 
         <div class="button-container" v-if="imageInfo.previewUrl">
             <NButton type="info" @click="copy(imageInfo.code)" class="button">

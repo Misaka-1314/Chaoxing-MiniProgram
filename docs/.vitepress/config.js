@@ -21,6 +21,7 @@ export default defineConfig({
         ['meta', { name: 'referrer', content: 'never' }],
         ['script', { type: 'text/javascript', src: '/js/analyze.js' }],
         ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
+        ['script', { src: 'https://challenges.cloudflare.com/turnstile/v0/api.js', async: '', defer: '' }]
     ],
 
     markdown: {
@@ -111,6 +112,7 @@ export default defineConfig({
                     text: '非开源版',
                     items: [
                         { text: '自建小程序', link: '/advance/no-open/develop' },
+                        { text: '上传代码', link: '/advance/no-open/upload' },
                         { text: '版本升级', link: '/advance/no-open/upgrade' },
                         { text: '添加广告', link: '/advance/no-open/ad-setting' }
                     ]
