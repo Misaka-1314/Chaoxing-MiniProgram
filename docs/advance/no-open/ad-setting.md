@@ -1,12 +1,4 @@
----
-title: 添加广告
-icon: iconfont icon-state
-category:
-  - Advance
-tag:
-  - Advance
-order: 50
----
+# 添加广告
 
 ## 设置广告位
 

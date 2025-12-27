@@ -1,13 +1,4 @@
----
-title: 隐私协议与服务政策
-icon: iconfont icon-study
-index: false
-category:
-  - Guide
-tag:
-  - Guide
-order: 99
----
+# 隐私协议与服务政策
 
 ## 信息收集
 

@@ -1,13 +1,4 @@
----
-title: 非开源版配置域名
-index: false
-icon: iconfont icon-state
-category:
-  - Advance
-tag:
-  - Advance
-order: 10
----
+# 非开源版配置域名
 
 自建小程序可以开启调试模式使用，或者在微信公众平台配置服务器域名。
 

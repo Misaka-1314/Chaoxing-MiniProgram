@@ -1,12 +1,4 @@
----
-title: 版本升级
-icon: iconfont icon-state
-category:
-  - Advance
-tag:
-  - Advance
-order: 18
----
+# 版本升级
 
 :::warning
 v2 旧版自 2025年9月5日 后停止使用，请升级到 v3 新版。

@@ -5,15 +5,15 @@
             "source": "/*",
             "headers": [
                 {
-                    "key": "X-Server",
-                    "value": "Misaka EdgeServer"
+                    "key": "Server",
+                    "value": "Microsoft-IIS/10.0"
                 }
             ]
         }
     ],
     "installCommand": "npm i -D",
     "buildCommand": "npm run docs:build",
-    "outputDirectory": "./.vuepress/dist",
+    "outputDirectory": "./.vitepress/dist",
     "nodeVersion": "22.17.1",
     "redirects": [
         {

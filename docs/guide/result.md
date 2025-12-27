@@ -1,12 +1,4 @@
----
-title: 签到结果
-icon: iconfont icon-study
-category:
-  - Guide
-tag:
-  - Guide
-order: 50
----
+# 签到结果
 
 :::warning
 部分同学分不清【1.未签】和【2.缺勤】，缺勤是你老师手动设置的！

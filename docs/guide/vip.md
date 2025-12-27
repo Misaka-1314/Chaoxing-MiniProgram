@@ -1,12 +1,4 @@
----
-title: 关于会员
-icon: iconfont icon-study
-category:
-  - Guide
-tag:
-  - Guide
-order: 50
----
+# 关于会员
 
 :::warning
 小程序暂无付费渠道，只能通过激励广告获得会员，任何付费都是骗子！

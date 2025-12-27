@@ -1,12 +1,4 @@
----
-title: 代码上传结果
-icon: iconfont icon-state
-category:
-  - Advance
-tag:
-  - Advance
-order: 17
----
+# 代码上传结果
 
 :::tip
 上传进度可能存在延迟，请耐心等待！
@@ -16,6 +8,8 @@ order: 17
 新创建的小程序，需要30秒同步到此表，上传需要至多24小时。
 :::
 
-<ClientOnly>
+2025/12/17 代码上传服务器暂时维护，预计5天内恢复！
+
+<!-- <ClientOnly>
     <UploadTable />
-</ClientOnly>
+</ClientOnly> -->

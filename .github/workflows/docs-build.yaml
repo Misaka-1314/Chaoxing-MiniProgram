@@ -11,7 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 签出代码
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - name: 安装依赖
         run: npm i -D
@@ -27,7 +29,7 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add . && git commit -m "更新文档"
-        working-directory: docs/.vuepress/dist
+        working-directory: docs/.vitepress/dist
 
       - name: 推送到 GitHub
         uses: ad-m/github-push-action@master
@@ -35,4 +37,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: pages
           force: true
-          directory: docs/.vuepress/dist
+          directory: docs/.vitepress/dist

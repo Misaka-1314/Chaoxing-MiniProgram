@@ -1,14 +1,4 @@
----
-title: 反代服务器
-icon: iconfont icon-state
-category:
-  - Advance
-tag:
-  - Advance
-order: 25
----
-
-# 反向代理服务端部署教程
+# 反向代理服务部署教程
 
 > 微信小程序配置服务器域名 要求域名已备案
 >
@@ -16,30 +6,28 @@ order: 25
 
 ## 使用 边缘函数反代
 
-### 使用 Cloudflare Worker
-
+::: details 使用 Cloudflare Worker
 把下面的反向代理脚本粘贴到 Workers 编辑器中。
 
 > 注意：Worker默认的域名已被墙，请自备域名；已知部分沿海城市阻断了CF的IP。
 
 [![使用 Cloudflare Workers 部署](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/Misaka-1314/Chaoxing-MiniProgram/tree/main/server/cloudflare)
 
-:::warning
 请修改根目录为 `server/cloudflare`。
 如果部署有问题，请自行复制代码粘贴到 Cloudflare Workers！[去复制代码](https://github.com/Misaka-1314/Chaoxing-MiniProgram/blob/main/server/cloudflare/_worker.js)
 :::
 
-### 使用腾讯云 EdgeOne Pages
-
+::: details 使用腾讯云 EdgeOne Pages
 [![使用 腾讯云 EdgeOne Pages 部署](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://edgeone.ai/pages/new?repository-url=https%3a%2f%2fgithub.com%2fMisaka-1314%2fChaoxing-MiniProgram%2ftree%2fmain%2fserver%2fedgeone&project-name=cx-proxy&repository-name=cx-proxy)
+:::
 
-### 使用腾讯云 EdgeOne 边缘函数
-
+::: details 使用腾讯云 EdgeOne 边缘函数
 请自行复制代码粘贴到 EdgeOne 边缘函数！[去复制代码](https://github.com/Misaka-1314/Chaoxing-MiniProgram/blob/main/server/edgeone/_worker.js)
+:::
 
-## 自建反代服务器
+## 使用 Web 服务器反代
 
-### Caddy 配置文件示例
+::: details Caddy 配置文件示例
 
 ```
 example.com {
@@ -68,8 +56,9 @@ http://192.168.x.x:8080 {
  reverse_proxy http://127.0.0.1:8080
 }
 ```
+:::
 
-### Nginx 配置文件示例
+::: details Nginx 配置文件示例
 
 ```nginx
 server {
@@ -115,9 +104,11 @@ server {
     }
 }
 ```
+:::
 
-### 使用 Python 反代
+## 使用 Python 反代
 
+::: details FastAPI
 ```python
 from fastapi import FastAPI, Request, Response
 from urllib.parse import urljoin
@@ -145,6 +136,9 @@ async def proxy(request: Request, path: str):
 if __name__ == "__main__":
     uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)
 ```
+:::
+
+::: details aiohttp
 
 ```python
 from aiohttp import web, ClientSession
@@ -163,3 +157,4 @@ app.router.add_get("/proxy/{path:.*}", proxy)
 
 web.run_app(app, port=8000)
 ```
+:::
