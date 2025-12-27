@@ -6,14 +6,14 @@ hero:
   text: "微信小程序"
   tagline: 🚀 学习通签到签到工具，更轻、更快、更惠及！
   image:
-    src: https://avatars.githubusercontent.com/u/163529042?v=4
+    src: /logo.png
   actions:
     - theme: brand
       text: 用户指南 💡
       link: /guide/
     - theme: alt
       text: 开发者指南 🎉
-      link: /advance/
+      link: /advance/no-open/develop
     - theme: alt
       text: GitHub 仓库 🌱
       link: https://github.com/Misaka-1314/Chaoxing-MiniProgram

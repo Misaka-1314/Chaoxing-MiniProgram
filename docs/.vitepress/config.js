@@ -17,7 +17,7 @@ export default defineConfig({
     srcExclude: ['edge-functions/**'],
 
     head: [
-        ['link', { rel: 'icon', href: 'https://github.com/Misaka-1314.png' }],
+        ['link', { rel: 'icon', href: '/logo.png' }],
         ['meta', { name: 'referrer', content: 'never' }],
         ['script', { type: 'text/javascript', src: '/js/analyze.js' }],
         ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
@@ -35,7 +35,7 @@ export default defineConfig({
     },
 
     themeConfig: {
-        logo: 'https://github.com/Misaka-1314.png',
+        logo: '/logo.png',
         siteTitle: 'Misaka 文档',
         socialLinks: [
             {
@@ -131,10 +131,10 @@ export default defineConfig({
 
     vite: {
         optimizeDeps: {
-            include: ['naive-ui']
+            include: ['naive-ui', 'vueuc']
         },
         ssr: {
-            noExternal: ['naive-ui']
+            noExternal: ['naive-ui', 'vueuc']
         },
     },
 })
