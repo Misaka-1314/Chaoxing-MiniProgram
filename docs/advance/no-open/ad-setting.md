@@ -14,7 +14,7 @@
 
 <img src="/image/ad-study/轮播图.png" style="width: min(40vw, 250px)" />
 
-1. 把图片上传到 [超星图床](https://doc.micono.eu.org/tools/image.html)
+1. 把图片上传到 [超星图床](../../tools/image.md)
 2. 前往小程序管理界面，填入图片链接。
 
 ## 常见问题

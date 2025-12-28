@@ -13,15 +13,6 @@
 同意协议后，您也可以随时撤回同意，修改小程序密钥并下线我们设计的小程序即可代表您中止协议。
 :::
 
-:::tabs#mode
-
-@tab 开启调试模式使用
-
-1. 点击小程序右上角三个点
-2. 下方滑到最右边，点击 “开发调试” 开启调试模式。
-
-@tab 设置小程序服务器域名
-
 <img src="/image/guide/配置服务器域名.png" style="width: min(60vw, 420px)" />
 
 #### request 合法域名  
@@ -89,7 +80,5 @@ https://passport2-api.chaoxing.com;
 https://mooc1-api.chaoxing.com;
 https://api.map.baidu.com;
 ```
-
-:::
 
 广告及轮播图相关内容，请阅读 [广告教程](./ad-setting.md)
