@@ -123,6 +123,7 @@ export default defineConfig({
             collapsed: false,
             items: [
                 { text: '超星图床', link: '/tools/image' },
+                { text: '设备特征码', link: '/tools/device' },
             ]
         }],
         footer: {
