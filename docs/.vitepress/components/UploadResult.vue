@@ -130,10 +130,12 @@ const columns = [
                             ]
                           })
                       },
+                      { label: '问卷填写时间', value: data.create_time || null },
                       { label: '上传开始时间', value: data.upload_begin_time || null },
                       { label: '上传成功时间', value: data.upload_success_time || null },
+                      { label: '上传耗时', value: data.upload_duration ? `${data.upload_duration} 秒` : null },
                       { label: '下次重试时间', value: data.upload_locker_expire || null },
-                      { label: '上传节点', value: data.upload_node?.slice(0, 15).toUpperCase() || '未知' }
+                      { label: '上传节点', value: data.upload_node?.slice(0, 15) || null }
                     ]
                       .filter(item => item.value)
                       .map(item =>
