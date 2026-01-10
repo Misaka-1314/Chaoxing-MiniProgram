@@ -97,7 +97,7 @@ const columns = [
             }
 
             modal.create({
-              title: () => h(NText, { strong: true }, { default: () => `任务 ID - ${row.id}` }),
+              title: () => h(NText, { strong: true }, { default: () => `任务 - ${row.id}` }),
               preset: 'card',
               style: { width: '600px' },
               content: () => {
@@ -130,6 +130,7 @@ const columns = [
                             ]
                           })
                       },
+                      { label: '版本构建时间', value: data.version_time || null },
                       { label: '问卷填写时间', value: data.create_time || null },
                       { label: '上传开始时间', value: data.upload_begin_time || null },
                       { label: '上传成功时间', value: data.upload_success_time || null },

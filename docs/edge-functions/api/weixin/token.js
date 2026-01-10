@@ -4,7 +4,7 @@ export async function onRequestGet({ request, env }) {
     const appid = params.get('appid');
     const secret = params.get('secret');
 
-    return fetch(
+    const resp = await fetch(
         `https://api.weixin.qq.com/cgi-bin/stable_token`, {
         "method": "POST",
         "body": JSON.stringify({
@@ -16,5 +16,15 @@ export async function onRequestGet({ request, env }) {
         "headers": {
             "Content-Type": "application/json",
         },
+    });
+    const res = await resp.json();
+    const expire = (res.expires_in || 3600) - 300;
+    return new Response(JSON.stringify(res), {
+        status: 200,
+        headers: new Headers({
+            "Content-Type": "application/json",
+            "Cache-Control": `public, max-age=${expire}, immutable`,
+            "Access-Control-Allow-Origin": "*",
+        }),
     });
 }

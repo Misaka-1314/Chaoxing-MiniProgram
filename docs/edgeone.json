@@ -9,6 +9,15 @@
                     "value": "Microsoft-IIS/10.0"
                 }
             ]
+        },
+        {
+            "source": "/api/weixin/*",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=3600, immutable"
+                }
+            ]
         }
     ],
     "installCommand": "npm i -D",
