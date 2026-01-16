@@ -88,7 +88,7 @@ export default defineConfig({
             pattern: 'https://github.com/Misaka-1314/Chaoxing-MIniProgram/edit/main/docs/:path'
         },
         sidebar: [{
-            text: '用户指南',
+            text: '用户签到指南',
             collapsed: false,
             items: [
                 { text: '简介', link: '/guide/' },
@@ -117,6 +117,12 @@ export default defineConfig({
                         { text: '添加广告', link: '/advance/no-open/ad-setting' }
                     ]
                 }
+            ],
+        }, {
+            text: '学习通介绍',
+            collapsed: true,
+            items: [
+                { text: '实名认证', link: '/official/realname' },
             ],
         }, {
             text: '小工具',
