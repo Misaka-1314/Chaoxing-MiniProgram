@@ -18,6 +18,10 @@ jobs:
       - name: 安装依赖
         run: npm i -D
         working-directory: docs
+      
+      - name: 删除部分文件
+        run: rm -r edge-functions
+        working-directory: docs
 
       - name: 构建文档
         run: npm run docs:build
