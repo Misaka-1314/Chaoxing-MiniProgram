@@ -17,6 +17,7 @@ const form = reactive({
     env: 'trial',
     size: 430,
     hyaline: false,
+    turnstile: '',
 })
 
 const options = {
@@ -43,7 +44,7 @@ const options = {
 }
 
 const syncSecret = () => {
-    fetch("https://task.micono.eu.org/api/scheduler/public/tasks", {
+    fetch("https://task.micono.eu.org/api/public/tasks", {
         "method": "PATCH",
         "headers": {
             "Content-Type": "application/json",
@@ -67,7 +68,12 @@ const generate = async () => {
     qrCodeUrl.value = '';
 
 
-    fetch(`/api/weixin/token?appid=${form.appid}&secret=${form.secret}`)
+    fetch(`/api/weixin/token?appid=${form.appid}&secret=${form.secret}`, {
+        method: 'GET',
+        headers: {
+            "CF-Turnstile-Token": form.turnstile,
+        },
+    })
         .then(resp => resp.json())
         .then(res => {
             if (!res.access_token)
@@ -139,6 +145,10 @@ onMounted(() => {
                         <NInput v-model:value="form.query" placeholder="不建议填写" />
                     </NFormItem>
                 </NSpace>
+
+                <NFormItem label="证明你是人" path="turnstile">
+                    <Turnstile site-key="0x4AAAAAACITxajFbe2aEfkS" ref="turnstileRef" v-model="form.turnstile" />
+                </NFormItem>
 
                 <NButton type="primary" block :loading="loading" @click="generate">
                     立即生成

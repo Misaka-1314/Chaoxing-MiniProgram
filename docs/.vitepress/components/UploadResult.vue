@@ -183,7 +183,7 @@ const columns = [
 const fetchListData = () => {
   loading.value = true;
   fetch(
-    `${host}/api/scheduler/public/tasks`, {
+    `${host}/api/public/tasks`, {
     credentials: 'omit',
     mode: 'cors'
   })
@@ -208,7 +208,7 @@ const fetchListData = () => {
 
 const fetchDetail = id => {
   fetch(
-    `${host}/api/scheduler/public/tasks/${id}`, {
+    `${host}/api/public/tasks/${id}`, {
     credentials: 'omit',
     mode: 'cors'
   })

@@ -3,10 +3,13 @@
 import { ref, reactive, onMounted } from 'vue';
 import { NForm, NFormItem, NInput, NButton, NSpace, NText, useMessage } from 'naive-ui';
 
+import Turnstile from './utils/Turnstile.vue';
+
 const host = "https://task.micono.eu.org";
 const message = useMessage();
 const form = reactive({});
 const formRef = ref(null);
+const turnstileRef = ref(null);
 
 const rules = {
     appid: {
@@ -81,6 +84,17 @@ const rules = {
             return true;
         },
     },
+
+    turnstile: {
+        required: true,
+        trigger: ["blur"],
+        validator(rule, value) {
+            if (!value) {
+                return new Error("请完成人机验证码");
+            }
+            return true;
+        },
+    },
 };
 
 const readKeyFile = () => {
@@ -122,13 +136,13 @@ const submit = e => {
             "key": form.key.trim(),
             "mobile": form.mobile.trim(),
             "name": form.name.trim(),
-            "turnstile": form.turnstile,
         };
         localStorage.setItem("upload_form", JSON.stringify(body));
-        fetch(`${host}/api/scheduler/public/tasks`, {
+        fetch(`${host}/api/public/tasks`, {
             "method": "PUT",
             "headers": {
                 "Content-Type": "application/json",
+                "CF-Turnstile-Token": form.turnstile,
             },
             "body": JSON.stringify(body),
         })
@@ -139,6 +153,9 @@ const submit = e => {
                 if (res.status == 0)
                     form.status = "success";
             })
+            .finally(() => {
+                turnstileRef.value.reset();
+            });
     });
 };
 
@@ -204,8 +221,7 @@ onMounted(() => {
             <NInput v-model:value.trim="form.name" placeholder="请输入小程序名称" />
         </NFormItem>
         <NFormItem label="证明你是人" path="turnstile">
-            <div class="cf-turnstile" size="flexible" data-sitekey="0x4AAAAAACITxajFbe2aEfkS"
-                data-callback="onTurnstileSuccess"></div>
+            <Turnstile site-key="0x4AAAAAACITxajFbe2aEfkS" ref="turnstileRef" v-model="form.turnstile" />
         </NFormItem>
         <NButton type="primary" v-if="form?.status == 'success'" block disabled>已提交成功</NButton>
         <NButton type="primary" v-else block @click.prevent="submit">提交</NButton>

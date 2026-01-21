@@ -21,7 +21,6 @@ export default defineConfig({
         ['meta', { name: 'referrer', content: 'never' }],
         ['script', { type: 'text/javascript', src: '/js/analyze.js' }],
         ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
-        ['script', { src: 'https://challenges.cloudflare.com/turnstile/v0/api.js', async: '', defer: '' }]
     ],
 
     markdown: {
