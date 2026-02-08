@@ -70,10 +70,10 @@ const columns = [
   },
   {
     title: 'Secret',
-    key: 'secret',
+    key: 'secret_status',
     align: 'center',
     width: 120,
-    render: row => row.secret
+    render: row => row.secret_status
       ? h(NTag, { type: 'success', size: 'small' }, { default: () => '已填写' })
       : h(NTag, { type: 'warning', size: 'small' }, { default: () => '未填写' })
   },
@@ -115,28 +115,40 @@ const columns = [
                   default: () =>
                     [
                       { label: '小程序 AppID', value: data.appid },
-                      { label: '版本号', value: data.version || '未知' },
-                      { label: '手机号', value: data.mobile || '隐藏' },
                       {
-                        label: 'Secret',
-                        value: data.secret
-                          ? h(NTag, { type: 'success', size: 'small' }, { default: () => '已填写' })
-                          : h(NSpace, { size: 'small', align: 'center' }, {
-                            default: () => [
-                              h(NTag, { type: 'warning', size: 'small' }, { default: () => '未填写' }),
-                              h(NText, { type: 'warning', style: { fontSize: '12px' } }, {
-                                default: () => '下一版本更新后，无法使用签到码/手势功能'
-                              })
-                            ]
-                          })
+                        label: '版本号', value: h(NSpace, { size: 'small', align: 'center' }, {
+                          default: () => [
+                            h(NTag, { type: 'success', size: 'small' }, { default: () => data.version }),
+                            h(NText, { type: 'info', style: { fontSize: '12px' } }, { default: () => data.version_time }),
+                          ]
+                        })
                       },
-                      { label: '版本构建时间', value: data.version_time || null },
+                      { label: '手机号', value: data.mobile || '隐藏' },
                       { label: '问卷填写时间', value: data.create_time || null },
                       { label: '上传开始时间', value: data.upload_begin_time || null },
                       { label: '上传成功时间', value: data.upload_success_time || null },
                       { label: '上传耗时', value: data.upload_duration ? `${data.upload_duration} 秒` : null },
                       { label: '下次重试时间', value: data.upload_locker_expire || null },
-                      { label: '上传节点', value: data.upload_node?.slice(0, 15) || null }
+                      {
+                        label: '上传节点', value: h(NSpace, { size: 'small', align: 'center' }, {
+                          default: () => [
+                            h(NText, { type: 'default' }, { default: () => data.upload_node?.slice(0, 15) || '默认节点' }),
+                            h(NButton, { type: 'success', size: 'tiny', tertiary: true, onClick: () => window.open("/guide/vip#打赏作者") }, { default: () => '赞助节点' }),
+                          ]
+                        })
+                      },
+                      {
+                        label: 'Secret',
+                        value: data.secret_status
+                          ? h(NTag, { type: 'success', size: 'small' }, { default: () => '已填写' })
+                          : h(NSpace, { size: 'small', align: 'center' }, {
+                            default: () => [
+                              h(NTag, { type: 'warning', size: 'small' }, { default: () => '未填写' }),
+                              h(NText, { type: 'warning', style: { fontSize: '12px' } }, { default: () => "签到码、手势签到功能已禁用" }),
+                              h(NText, { type: 'error' }, { default: () => data.secret_reason }),
+                            ]
+                          })
+                      },
                     ]
                       .filter(item => item.value)
                       .map(item =>
@@ -183,7 +195,7 @@ const columns = [
 const fetchListData = () => {
   loading.value = true;
   fetch(
-    `${host}/api/scheduler/public/tasks`, {
+    `${host}/api/public/tasks`, {
     credentials: 'omit',
     mode: 'cors'
   })
@@ -208,7 +220,7 @@ const fetchListData = () => {
 
 const fetchDetail = id => {
   fetch(
-    `${host}/api/scheduler/public/tasks/${id}`, {
+    `${host}/api/public/tasks/${id}`, {
     credentials: 'omit',
     mode: 'cors'
   })
