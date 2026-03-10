@@ -5,8 +5,8 @@
 // @author       Misaka
 // @match        https://mp.weixin.qq.com/wxamp/*
 // @grant        none
-// @updateURL    https://cdn.oplist.org/gh/Misaka-1314/Chaoxing-MiniProgram@main/resource/油猴脚本/账号切换.js
-// @downloadURL  https://cdn.oplist.org/gh/Misaka-1314/Chaoxing-MiniProgram@main/resource/油猴脚本/账号切换.js
+// @updateURL    https://raw.githubusercontent.com/Misaka-1314/Chaoxing-MiniProgram/refs/heads/main/resource/油猴脚本/账号切换.js
+// @downloadURL  https://raw.githubusercontent.com/Misaka-1314/Chaoxing-MiniProgram/refs/heads/main/resource/油猴脚本/账号切换.js
 // ==/UserScript==
 
 const getQueryParam = (name) => {

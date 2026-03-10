@@ -4,8 +4,8 @@
 // @version      1.0.0
 // @description  批量导入名单
 // @match        https://mooc2-ans.chaoxing.com/tcm/course-manage*
-// @updateURL    https://cdn.oplist.org/gh/Misaka-1314/Chaoxing-MiniProgram@main/resource/油猴脚本/批量导入.js
-// @downloadURL  https://cdn.oplist.org/gh/Misaka-1314/Chaoxing-MiniProgram@main/resource/油猴脚本/批量导入.js
+// @updateURL    https://raw.githubusercontent.com/Misaka-1314/Chaoxing-MiniProgram/refs/heads/main/resource/油猴脚本/批量导入.js
+// @downloadURL  https://raw.githubusercontent.com/Misaka-1314/Chaoxing-MiniProgram/refs/heads/main/resource/油猴脚本/批量导入.js
 // @grant        none
 // ==/UserScript==
 
