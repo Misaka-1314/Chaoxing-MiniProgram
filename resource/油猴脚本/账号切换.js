@@ -32,7 +32,7 @@ const 获取小程序列表 = () => {
             .then(res => {
                 console.info("获取小程序列表", res);
                 if (res.wax_list.length > 0)
-                    resolve(res.wax_list.filter(item => item.type == 1).filter(item => !item.app_name.includes("测试号")))
+                    resolve(res.wax_list.filter(item => item.type == 1).filter(item => !item.app_name.includes("测试号")).slice(1));
                 else
                     resolve([])
             })

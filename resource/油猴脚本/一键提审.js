@@ -175,7 +175,7 @@ const getRemark = () => {
                             ticket: "qrcheckTicket",
                             openid: openid,
                             auto_id: 30,
-                            version_desc: `版本提交审核\n\n更新时间：${new Date().toLocaleString(
+                            version_desc: `小程序常规更新\n\n更新时间：${new Date().toLocaleString(
                                 "zh-CN"
                             )}`,
                             speedup_audit: 0,
@@ -190,7 +190,11 @@ const getRemark = () => {
                             only_run_wxwork: 0,
                             argue_item: "",
                             preview_info: JSON.stringify({
-                                pic_id_list: [],
+                                pic_id_list: [
+                                    "hMJoULj431DbdIOnOXabO28zb586SXYXAYjFfa5gjP0vrQ3V6EXu8U1T3fSewAgRHb00ynZB1i9iL1KrLo9L6w",
+                                    "hMJoULj431DbdIOnOXabO-N0x221D_mHn6FPGtzMpZgTqOvT7qLrbkYyo625QyWdu2vh3trtyJrVc84jy_Ij0g",
+                                    "hMJoULj431DbdIOnOXabOyICiF0Oco4xsnT9ibkkT1PidHvgBpvckKH3H2IuS_GlhO3KtDzaOoFz21iQM8MjdA",
+                                ],
                                 video_id_list: [],
                             }),
                             feedback_stuff: "",
