@@ -91,10 +91,10 @@ export default defineConfig({
             collapsed: false,
             items: [
                 { text: '简介', link: '/guide/' },
-                { text: '签到类型', link: '/guide/type' },
                 { text: '关于会员', link: '/guide/vip' },
-                { text: '签到结果', link: '/guide/result' },
+                { text: '签到类型', link: '/guide/type' },
                 { text: '使用教程', link: '/guide/tutorial' },
+                { text: '常见问题', link: '/guide/faq' },
             ],
         }, {
             text: '开发者指南',

@@ -87,10 +87,7 @@ const 切换账号 = (username) => {
         button.style.borderRadius = "5px";
         button.style.cursor = "pointer";
         button.title = item.appid;
-        if (index)
-            button.addEventListener("click", () => 切换账号(item.username));
-        else
-            console.info("当前账号");
+        button.addEventListener("click", () => 切换账号(item.username));
         container.appendChild(button);
     });
 

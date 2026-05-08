@@ -116,16 +116,31 @@ const columns = [
                     [
                       { label: '小程序 AppID', value: data.appid },
                       {
-                        label: '版本号', value: h(NSpace, { size: 'small', align: 'center' }, {
-                          default: () => [
-                            h(NTag, { type: 'success', size: 'small' }, { default: () => data.version }),
-                            h(NText, { type: 'info', style: { fontSize: '12px' } }, { default: () => data.version_time }),
-                          ]
-                        })
+                        label: '版本号',
+                        value: data.version
+                          ? h(NSpace, { size: 'small', align: 'center' }, {
+                            default: () => [
+                              h(NTag, { type: 'success', size: 'small' }, {
+                                default: () => data.version
+                              }),
+
+                              data.version_time
+                                ? h(NText, {
+                                  type: 'info',
+                                  style: { fontSize: '12px' }
+                                }, {
+                                  default: () => `构建于 ${data.version_time}`
+                                })
+                                : null,
+                            ]
+                          })
+                          : h(NTag, { type: 'error', size: 'small' }, {
+                            default: () => '上传失败'
+                          })
                       },
                       { label: '手机号', value: data.mobile || '隐藏' },
                       { label: '问卷填写时间', value: data.create_time || null },
-                      { label: '上传开始时间', value: data.upload_begin_time || null },
+                      { label: '上传开始时间', value: data.upload_duration ? null : data.upload_begin_time },
                       { label: '上传成功时间', value: data.upload_success_time || null },
                       { label: '上传耗时', value: data.upload_duration ? `${data.upload_duration} 秒` : null },
                       { label: '下次重试时间', value: data.upload_locker_expire || null },
